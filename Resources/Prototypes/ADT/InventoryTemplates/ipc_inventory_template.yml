@@ -59,13 +59,13 @@
       uiWindowPos: 0,1
       strippingWindowPos: 0,1
       displayName: Neck
-    - name: mask
-      slotTexture: mask
-      slotFlags: MASK
-      uiWindowPos: 1,1
-      strippingWindowPos: 1,1
-      displayName: Mask
-      offset: 0.5, 1.5
+    #- name: mask
+    #  slotTexture: mask
+    #  slotFlags: MASK
+    #  uiWindowPos: 1,1
+    #  strippingWindowPos: 1,1
+    #  displayName: Mask
+    #  offset: 0.5, 1.5
     - name: eyes
       slotTexture: glasses
       slotFlags: EYES

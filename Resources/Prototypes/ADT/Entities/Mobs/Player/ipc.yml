@@ -7,14 +7,6 @@
   #description: [mob_ipc-desc]
   components:
 
-  - type: InventorySlots
-    slots:
-      jumpsuit: {}  # Стандартные слоты
-      mask: {}
-      ears:  # Новый слот для гарнитуры
-        name: "Audio Interface"
-        showInWindow: true
-
   - type: InteractionPopup
     interactSuccessString: petting-success-ipc
     #interactFailureString: petting-failure-cleanbot
@@ -151,5 +143,7 @@
   components:
   - type: HumanoidAppearance
     species: IPC
+    hair: []  # Пустой список = нет причесок
+    facialHair: []  # Пустой список = нет бород
   - type: Inventory
     templateId: ipc
