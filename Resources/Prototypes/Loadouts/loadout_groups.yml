@@ -770,7 +770,7 @@
   - StationEngineerHardhatYellow
   - StationEngineerHardhatOrange
   - StationEngineerHardhatRed
-  - SeniorEngineerBeret
+  #- SeniorEngineerBeret Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: StationEngineerJumpsuit
@@ -779,8 +779,8 @@
   - StationEngineerJumpsuit
   - StationEngineerJumpskirt
   - StationEngineerHazardsuit
-  - SeniorEngineerJumpsuit
-  - SeniorEngineerJumpskirt
+  #- SeniorEngineerJumpsuit Corvax-Next-MentorRoles
+  #- SeniorEngineerJumpskirt Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: StationEngineerBackpack
@@ -810,7 +810,7 @@
   name: loadout-group-station-engineer-id
   loadouts:
   - StationEngineerPDA
-  - SeniorEngineerPDA
+  #- SeniorEngineerPDA Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: AtmosphericTechnicianJumpsuit
@@ -901,7 +901,7 @@
   loadouts:
   - RoboticistCap
   - SkullBandana
-  - ScientificBeret
+  #- ScientificBeret Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: ScientistNeck
@@ -918,8 +918,8 @@
   - ScientistJumpskirt
   - RoboticistJumpsuit
   - RoboticistJumpskirt
-  - SeniorResearcherJumpsuit
-  - SeniorResearcherJumpskirt
+  #- SeniorResearcherJumpsuit Corvax-Next-MentorRoles
+  #- SeniorResearcherJumpskirt Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: ScientistBackpack
@@ -939,7 +939,7 @@
   - ScienceWintercoat
   - RoboticistLabCoat
   - RoboticistWintercoat
-  - SeniorResearcherLabCoat
+  #- SeniorResearcherLabCoat Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: ScientistShoes
@@ -963,7 +963,7 @@
   name: loadout-group-scientist-id
   loadouts:
   - ScientistPDA
-  - SeniorResearcherPDA
+  #- SeniorResearcherPDA Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: ResearchAssistantJumpsuit
@@ -1052,8 +1052,8 @@
   - SecurityJumpskirt
   - SecurityJumpsuitGrey
   - SecurityJumpskirtGrey
-  - SeniorOfficerJumpsuit
-  - SeniorOfficerJumpskirt
+  #- SeniorOfficerJumpsuit Corvax-Next-MentorRoles
+  #- SeniorOfficerJumpskirt Corvax-Next-MentorRoles
   - TrooperUniform
 
 - type: loadoutGroup
@@ -1093,7 +1093,7 @@
   name: loadout-group-security-id
   loadouts:
   - SecurityPDA
-  - SeniorOfficerPDA
+  #- SeniorOfficerPDA Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: DetectiveHead
@@ -1198,7 +1198,7 @@
   minLimit: 0
   loadouts:
   - MedicalBeret
-  - SeniorPhysicianBeret
+  #- SeniorPhysicianBeret Corvax-Next-MentorRoles
   - MedicalHeadMirror
   - BlueSurgeryCap
   - GreenSurgeryCap
@@ -1211,8 +1211,8 @@
   loadouts:
   - MedicalDoctorJumpsuit
   - MedicalDoctorJumpskirt
-  - SeniorPhysicianJumpsuit
-  - SeniorPhysicianJumpskirt
+  #- SeniorPhysicianJumpsuit Corvax-Next-MentorRoles
+  #- SeniorPhysicianJumpskirt Corvax-Next-MentorRoles
   - MedicalBlueScrubs
   - MedicalGreenScrubs
   - MedicalPurpleScrubs
@@ -1224,7 +1224,7 @@
   loadouts:
   - RegularLabCoat
   - MedicalDoctorWintercoat
-  - SeniorPhysicianLabCoat
+  #- SeniorPhysicianLabCoat Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: MedicalBackpack
@@ -1246,7 +1246,7 @@
   name: loadout-group-medical-doctor-id
   loadouts:
   - MedicalDoctorPDA
-  - SeniorPhysicianPDA
+  #- SeniorPhysicianPDA Corvax-Next-MentorRoles
 
 - type: loadoutGroup
   id: MedicalGloves
