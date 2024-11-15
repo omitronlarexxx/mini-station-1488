@@ -45,6 +45,12 @@
   - type: RequireProjectileTarget
     active: False
   - type: AnimatedEmotes # Corvax-Next-AutoAnimate
+  - type: CanEscapeMech # ADT tweak
+  - type: LanguageSpeaker # Frontier
+    speaks:
+    - GalacticCommon
+    understands:
+    - GalacticCommon
 
 - type: entity
   save: false
