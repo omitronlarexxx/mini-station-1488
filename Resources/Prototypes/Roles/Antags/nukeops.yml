@@ -80,6 +80,15 @@
     outerClothing: ClothingOuterHardsuitSyndieCommander
   inhand:
   - NukeOpsDeclarationOfWar
+# ADT-NukieCommanderGear-tweak-start (если вписать тупо последнее, то остальное не заспавнится)
+  storage:
+    back:
+    - WeaponPistolViper
+    - PinpointerSyndicateNuclear
+    - DeathAcidifierImplanter
+    - ADTHandheldShuttleConsoleSyndicate
+    - ADTSyndiMechUplink
+# ADT-NukieCommanderGear-tweak-end
 
 #Nuclear Operative Medic Gear
 - type: startingGear
