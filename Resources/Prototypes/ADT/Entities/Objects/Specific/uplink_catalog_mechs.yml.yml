@@ -1,9 +1,8 @@
 - type: entity
-  parent: BaseStructure
-  id: UplinkMech
-  name: syndicate SSMRS
-  description: Specical Mech Recall Station, AKA "gou bai da fakn maular".
-  suffix: Empty
+  parent: [BaseItem, ADTStorePresetUplinkSyndiMech]
+  id: ADTSyndiMechUplink
+  name: Терминал механизированного крыла Киберсан
+  description: Тяжелая робототехника? Вы обратились по адресу!
   components:
   - type: Sprite
     sprite: ADT/Structures/Specific/mechlink.rsi
@@ -23,15 +22,3 @@
     - ADTUplinkMechEquipment
     balance:
       Telecrystal: 0
-    #storeCordsSpawn: true
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape:
-          !type:PhysShapeCircle
-          radius: 0.8
-        density: 100
-        mask:
-        - SmallMobMask
-        layer:
-        - SmallMobLayer

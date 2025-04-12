@@ -1,6 +1,5 @@
 meta:
   format: 6
-  postmapinit: false
 tilemap:
   0: Space
   7: FloorAsteroidSand
@@ -949,6 +948,7 @@ entities:
     - type: SpreaderGrid
     - type: GridPathfinding
     - type: Godmode
+    - type: SupermatterSpreaderGrid
 - proto: AirlockExternalGlass
   entities:
   - uid: 2
