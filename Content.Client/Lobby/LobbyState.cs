@@ -55,12 +55,10 @@ namespace Content.Client.Lobby
             var lobbyNameCvar = _cfg.GetCVar(CCVars.ServerLobbyName);
             var serverName = _baseClient.GameInfo?.ServerName ?? string.Empty;
 
-            Lobby.ServerName.Text = string.IsNullOrEmpty(lobbyNameCvar)
+            var title = string.IsNullOrEmpty(lobbyNameCvar)
                 ? Loc.GetString("ui-lobby-title", ("serverName", serverName))
                 : lobbyNameCvar;
-
-            var width = _cfg.GetCVar(CCVars.ServerLobbyRightPanelWidth);
-            Lobby.RightSide.SetWidth = width;
+            Lobby.ServerInfo.SetInfoBlob(title);
 
             UpdateLobbyUi();
 
@@ -201,7 +199,7 @@ namespace Content.Client.Lobby
         {
             if (ev.SoundtrackFilename == null)
             {
-                Lobby!.LobbySong.SetMarkup(Loc.GetString("lobby-state-song-no-song-text"));
+                Lobby!.StartTime.Text = Loc.GetString("lobby-state-song-no-song-text");
             }
             else if (
                 ev.SoundtrackFilename != null
@@ -222,7 +220,7 @@ namespace Content.Client.Lobby
                     ("songTitle", title),
                     ("songArtist", artist));
 
-                Lobby!.LobbySong.SetMarkup(markup);
+                Lobby!.StartTime.Text = markup;
             }
         }
 
