@@ -15,6 +15,7 @@
             <controls:VSpacer/>
             <Button Name="CharacterSetup" Text="{Loc 'lobby-character-preview-panel-character-setup-button'}"
                     HorizontalAlignment="Center"
+                    Visible = "False"
                     Margin="0 5 0 0"/>
         </BoxContainer>
         <Label Name="Unloaded" Text="{Loc 'lobby-character-preview-panel-unloaded-preferences-label'}"/>
