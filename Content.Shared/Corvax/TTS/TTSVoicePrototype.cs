@@ -1,4 +1,4 @@
-﻿using Content.Shared.Humanoid;
+using Content.Shared.Humanoid;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Corvax.TTS;
@@ -8,7 +8,7 @@ namespace Content.Shared.Corvax.TTS;
 /// </summary>
 [Prototype("ttsVoice")]
 // ReSharper disable once InconsistentNaming
-public sealed class TTSVoicePrototype : IPrototype
+public sealed partial class TTSVoicePrototype : IPrototype
 {
     [IdDataField]
     public string ID { get; } = default!;

@@ -1,0 +1,10 @@
+﻿- type: dataset
+  id: CentcommAnnouncementVoice
+  values:
+  - Templar
+  - Garithos
+  - Valerian
+  - Ewald
+  - Lina
+  - Widowmaker
+  - Vayne
