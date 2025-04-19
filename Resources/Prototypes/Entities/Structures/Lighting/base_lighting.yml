@@ -227,7 +227,7 @@
     radius: 10
     energy: 2.5
     softness: 0.9
-    color: "#FFAF38""
+    color: "#FFAF38"
   - type: DamageOnInteract
     damage:
       types:
