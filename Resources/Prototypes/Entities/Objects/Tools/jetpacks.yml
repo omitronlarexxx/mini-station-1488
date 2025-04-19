@@ -233,6 +233,7 @@
     slots:
       - Back
       - suitStorage
+
 #Filled security
 - type: entity
   id: JetpackSecurityFilled
