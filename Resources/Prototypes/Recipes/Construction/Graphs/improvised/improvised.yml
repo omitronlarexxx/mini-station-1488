@@ -6,5 +6,5 @@
   targetNode: jetpack
   category: construction-category-tools
   description: Кое как скрепленные вместе баллоны кислорода и огнетушитель в качестве сопла. Выглядит ненадёжно.
-  icon: { sprite: _DeadSpace/Objects/Tanks/Jetpacks/improvised.rsi, state: icon }
+  icon: { sprite: Objects/Tanks/Jetpacks/improvised.rsi, state: icon }
   objectType: Item
