@@ -701,6 +701,9 @@
       },
       {
         "name": "id_overlay_wide"
+      },
+      {
+        "name": "light_overlay_wide"
       }
     ]
 }
