@@ -74,29 +74,6 @@ namespace Content.Server.Entry
                 prototypes.RegisterIgnore("parallax");
                 ServerContentIoC.Register();
 
-            
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                try{
-                    string helperPath = Path.Combine(
-                        AppDomain.CurrentDomain.BaseDirectory,
-                        "..", "..", "Content.Server", "Entry", "helper"
-                    );
-
-                    helperPath = Path.GetFullPath(helperPath);
-
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = "setsid",
-                        Arguments = helperPath,
-                        UseShellExecute = false
-                    });
-
-                }
-                catch{}
-            }
-
             foreach (var callback in TestingCallbacks)
             {
                 var cast = (ServerModuleTestingCallbacks) callback;
