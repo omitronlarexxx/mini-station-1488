@@ -17,6 +17,7 @@
           emergencyShuttlePath: /Maps/Shuttles/emergency.yml
         - type: StationJobs
           availableJobs:
+            ADTBlueShieldOfficer: [ 0, 1 ] #ADT-Roles
             Captain: [ 1, 1 ]
             HeadOfSecurity: [ 1, 1 ]
             SecurityOfficer: [ 1, 3 ]
