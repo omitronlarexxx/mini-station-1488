@@ -131,7 +131,10 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     private void OnGameChange(GameRunLevelChangedEvent ev)
     {
-        _centcommTTS = _random.Pick(_prototypeManager.Index<DatasetPrototype>("CentcommAnnouncementVoice").Values);
+        if (_prototypeManager.TryIndex("CentcommAnnouncementVoice", out DatasetPrototype proto))
+            _centcommTTS = _random.Pick(proto.Values);
+        else
+            _centcommTTS = "Widowmaker";
 
         switch (ev.New)
         {
