@@ -1,3 +1,5 @@
+tts-voice-name-zina = Зина
+tts-voice-name-oleg = Лена
 tts-voice-name-aidar = Аидар
 tts-voice-name-baya = Байя
 tts-voice-name-kseniya = Ксения
@@ -117,7 +119,7 @@ tts-voice-name-lynette = Линетт (Fallout 2)
 tts-voice-name-marcus = Маркус (Fallout 2)
 tts-voice-name-master = Создатель (Fallout)
 tts-voice-name-morpheus = Морфеус (Fallout)
-tts-voice-name-myron = Майрон (Fallout 2)
+tts-voice-name-myron = Мирон
 tts-voice-name-nicole = Николь (Fallout)
 tts-voice-name-overseer = Смотритель (Fallout)
 tts-voice-name-rhombus = Ромбус (Fallout)
