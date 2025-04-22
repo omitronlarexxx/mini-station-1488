@@ -25,7 +25,6 @@ namespace Content.Client.Lobby.UI
             IoCManager.InjectDependencies(this);
             SetAnchorPreset(MainContainer, LayoutPreset.Wide);
             SetAnchorPreset(Background, LayoutPreset.Wide);
-            SetAnchorPreset(ParallaxControl, LayoutPreset.Wide);
 
             LeaveButton.OnPressed += _ => _consoleHost.ExecuteCommand("disconnect");
             OptionsButton.OnPressed += _ => UserInterfaceManager.GetUIController<OptionsUIController>().ToggleWindow();
@@ -41,7 +40,7 @@ namespace Content.Client.Lobby.UI
                 _uriOpener.OpenUri(new Uri(
                     "https://boosty.to/mini-station/purchase/3257397?ssource=DIRECT&share=subscription_link"));
             Discord.OnPressed += _ => _uriOpener.OpenUri(new Uri("https://discord.gg/mini-station"));
-            Telegram.OnPressed += _ => _uriOpener.OpenUri(new Uri("https://t.me/mini_station_ss14"));
+            Telegram.OnPressed += _ => _uriOpener.OpenUri(new Uri("https://t.me/mini_station"));
             CharacterSetup.OnPressed += _ => SwitchState(LobbyGuiState.CharacterSetup);
 
             Rules.OnPressed += _ => new RulesAndInfoWindow().Open();
