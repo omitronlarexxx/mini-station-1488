@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Content.Server.Chat.Systems;
-using Content.Shared.CCVar;
+using Content.Server.Players.RateLimiting;
 using Content.Shared.Corvax.CCCVars;
 using Content.Shared.Corvax.TTS;
 using Content.Shared.GameTicking;
@@ -9,7 +9,6 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.Corvax.TTS;
 
@@ -29,15 +28,17 @@ public sealed partial class TTSSystem : EntitySystem
             "Клоун, прекрати разбрасывать банановые кожурки офицерам под ноги!",
             "Капитан, вы уверены что хотите назначить клоуна на должность главы персонала?",
             "Эс Бэ! Тут человек в сером костюме, с тулбоксом и в маске! Помогите!!",
+            "Учёные, тут странная аномалия в баре! Она уже съела мима!",
             "Я надеюсь что инженеры внимательно следят за сингулярностью...",
             "Вы слышали эти странные крики в техах? Мне кажется туда ходить небезопасно.",
             "Вы не видели Гамлета? Мне кажется он забегал к вам на кухню.",
             "Здесь есть доктор? Человек умирает от отравленного пончика! Нужна помощь!",
+            "Вам нужно согласие и печать квартирмейстера, если вы хотите сделать заказ на партию дробовиков.",
             "Возле эвакуационного шаттла разгерметизация! Инженеры, нам срочно нужна ваша помощь!",
             "Бармен, налей мне самого крепкого вина, которое есть в твоих запасах!"
         };
 
-    private const int MaxMessageChars = 100 * 3; // same as SingleBubbleCharLimit * 3
+    private const int MaxMessageChars = 100 * 2; // same as SingleBubbleCharLimit * 2
     private bool _isEnabled = false;
 
     public override void Initialize()
@@ -46,10 +47,8 @@ public sealed partial class TTSSystem : EntitySystem
 
         SubscribeLocalEvent<TransformSpeechEvent>(OnTransformSpeech);
         SubscribeLocalEvent<TTSComponent, EntitySpokeEvent>(OnEntitySpoke);
-        SubscribeLocalEvent<TTSComponent, EntitySpokeToEntityEvent>(OnEntitySpokeToEntity);
-        SubscribeLocalEvent<RadioSpokeEvent>(OnRadioSpokeEvent);
-        SubscribeLocalEvent<AnnounceSpokeEvent>(OnAnnounceSpokeEvent);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
+
         SubscribeNetworkEvent<RequestPreviewTTSEvent>(OnRequestPreviewTTS);
 
         RegisterRateLimits();
@@ -101,69 +100,6 @@ public sealed partial class TTSSystem : EntitySystem
         HandleSay(uid, args.Message, protoVoice.Speaker);
     }
 
-    private async void OnEntitySpokeToEntity(EntityUid uid, TTSComponent component, EntitySpokeToEntityEvent args)
-    {
-        var voiceId = component.VoicePrototypeId;
-        if (!_isEnabled ||
-            args.Message.Length > MaxMessageChars ||
-            voiceId == null)
-            return;
-
-        var voiceEv = new TransformSpeakerVoiceEvent(uid, voiceId);
-        RaiseLocalEvent(uid, voiceEv);
-        voiceId = voiceEv.VoiceId;
-
-        if (!_prototypeManager.TryIndex<TTSVoicePrototype>(voiceId, out var protoVoice))
-            return;
-
-        HandleDirectSay(args.Target, args.Message, protoVoice.Speaker);
-    }
-
-    private async void OnRadioSpokeEvent(RadioSpokeEvent args)
-    {
-        if (!_isEnabled ||
-            args.Message.Length > MaxMessageChars)
-            return;
-
-        if (!TryComp(args.Source, out TTSComponent? component))
-            return;
-
-        var voiceId = component.VoicePrototypeId;
-
-        if (voiceId == null)
-            return;
-
-        var voiceEv = new TransformSpeakerVoiceEvent(args.Source, voiceId);
-        RaiseLocalEvent(args.Source, voiceEv);
-        voiceId = voiceEv.VoiceId;
-
-        if (!_prototypeManager.TryIndex<TTSVoicePrototype>(voiceId, out var protoVoice))
-            return;
-
-        HandleRadio(args.Receivers, args.Message, protoVoice.Speaker);
-    }
-
-    private async void OnAnnounceSpokeEvent(AnnounceSpokeEvent args)
-    {
-        var voiceId = args.Voice;
-        if (!_isEnabled ||
-            args.Message.Length > _cfg.GetCVar(CCVars.ChatMaxAnnouncementLength) ||
-            voiceId == null)
-            return;
-
-        if (args.Source != null)
-        {
-            var voiceEv = new TransformSpeakerVoiceEvent(args.Source.Value, voiceId);
-            RaiseLocalEvent(args.Source.Value, voiceEv);
-            voiceId = voiceEv.VoiceId;
-        }
-
-        if (!_prototypeManager.TryIndex<TTSVoicePrototype>(voiceId, out var protoVoice))
-            return;
-
-        Timer.Spawn(6000, () => HandleAnnounce(args.Message, protoVoice.Speaker)); // Awful, but better than sending announce sound to client in resource file
-    }
-
     private async void HandleSay(EntityUid uid, string message, string speaker)
     {
         var soundData = await GenerateTTS(message, speaker);
@@ -171,39 +107,16 @@ public sealed partial class TTSSystem : EntitySystem
         RaiseNetworkEvent(new PlayTTSEvent(soundData, GetNetEntity(uid)), Filter.Pvs(uid));
     }
 
-    private async void HandleDirectSay(EntityUid uid, string message, string speaker)
-    {
-        var soundData = await GenerateTTS(message, speaker);
-        if (soundData is null) return;
-        RaiseNetworkEvent(new PlayTTSEvent(soundData, GetNetEntity(uid)), Filter.Entities(uid));
-    }
-
-    private async void HandleRadio(EntityUid[] uids, string message, string speaker)
-    {
-        var soundData = await GenerateTTS(message, speaker);
-        if (soundData is null) return;
-
-        foreach (var uid in uids)
-            RaiseNetworkEvent(new PlayTTSEvent(soundData, GetNetEntity(uid), isRadio: true), Filter.Entities(uid));
-    }
-
-    private async void HandleAnnounce(string message, string speaker)
-    {
-        var soundData = await GenerateTTS(message, speaker);
-        if (soundData is null) return;
-        RaiseNetworkEvent(new PlayTTSEvent(soundData), Filter.Broadcast());
-    }
-
     private async void HandleWhisper(EntityUid uid, string message, string obfMessage, string speaker)
     {
         var fullSoundData = await GenerateTTS(message, speaker, true);
         if (fullSoundData is null) return;
 
-        // var obfSoundData = await GenerateTTS(obfMessage, speaker, true);
-        // if (obfSoundData is null) return;
+        var obfSoundData = await GenerateTTS(obfMessage, speaker, true);
+        if (obfSoundData is null) return;
 
         var fullTtsEvent = new PlayTTSEvent(fullSoundData, GetNetEntity(uid), true);
-        // var obfTtsEvent = new PlayTTSEvent(obfSoundData, GetNetEntity(uid), true);
+        var obfTtsEvent = new PlayTTSEvent(obfSoundData, GetNetEntity(uid), true);
 
         // TODO: Check obstacles
         var xformQuery = GetEntityQuery<TransformComponent>();
@@ -217,7 +130,7 @@ public sealed partial class TTSSystem : EntitySystem
             if (distance > ChatSystem.VoiceRange * ChatSystem.VoiceRange)
                 continue;
 
-            RaiseNetworkEvent(fullTtsEvent, session);
+            RaiseNetworkEvent(distance > ChatSystem.WhisperClearRange ? obfTtsEvent : fullTtsEvent, session);
         }
     }
 
@@ -238,14 +151,14 @@ public sealed partial class TTSSystem : EntitySystem
     }
 }
 
-public class TransformSpeakerVoiceEvent : EntityEventArgs
-    {
-        public EntityUid Sender;
-        public string VoiceId;
+public sealed class TransformSpeakerVoiceEvent : EntityEventArgs
+{
+    public EntityUid Sender;
+    public string VoiceId;
 
-        public TransformSpeakerVoiceEvent(EntityUid sender, string voiceId)
-        {
-            Sender = sender;
-            VoiceId = voiceId;
-        }
+    public TransformSpeakerVoiceEvent(EntityUid sender, string voiceId)
+    {
+        Sender = sender;
+        VoiceId = voiceId;
     }
+}
