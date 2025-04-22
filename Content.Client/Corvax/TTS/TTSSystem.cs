@@ -28,12 +28,12 @@ public sealed class TTSSystem : EntitySystem
     /// <summary>
     /// Reducing the volume of the TTS when whispering. Will be converted to logarithm.
     /// </summary>
-    private const float WhisperFade = 3f;
+    private const float WhisperFade = 2f;
 
     /// <summary>
     /// The volume at which the TTS sound will not be heard.
     /// </summary>
-    private const float MinimalVolume = -6f;
+    private const float MinimalVolume = -5f;
 
     private float _volume = 0.0f;
     private float _volumeRadio = 1.0f;
