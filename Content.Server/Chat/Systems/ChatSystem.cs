@@ -37,6 +37,8 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
 using Robust.Shared.Utility;
+using Content.Shared.Corvax.TTS;
+using Content.Shared.Dataset;
 
 namespace Content.Server.Chat.Systems;
 
@@ -63,7 +65,10 @@ public sealed partial class ChatSystem : SharedChatSystem
     [Dependency] private readonly ReplacementAccentSystem _wordreplacement = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
     [Dependency] private readonly ExamineSystemShared _examineSystem = default!;
-    [Dependency] private readonly CollectiveMindUpdateSystem _collectiveMind = default!; // Goobstation - Starlight collective mind port
+
+    [Dependency]
+    private readonly CollectiveMindUpdateSystem
+        _collectiveMind = default!; // Goobstation - Starlight collective mind port
 
     // Corvax-TTS-Start: Moved from Server to Shared
     // public const int VoiceRange = 10; // how far voice goes in world units
@@ -77,6 +82,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     private bool _deadLoocEnabled;
     private bool _critLoocEnabled;
     private readonly bool _adminLoocEnabled = true;
+    private string _centcommTTS = "Widowmaker";
 
     public override void Initialize()
     {
@@ -91,7 +97,8 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     private void OnLoocEnabledChanged(bool val)
     {
-        if (_loocEnabled == val) return;
+        if (_loocEnabled == val)
+            return;
 
         _loocEnabled = val;
         _chatManager.DispatchServerAnnouncement(
@@ -100,11 +107,14 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     private void OnDeadLoocEnabledChanged(bool val)
     {
-        if (_deadLoocEnabled == val) return;
+        if (_deadLoocEnabled == val)
+            return;
 
         _deadLoocEnabled = val;
         _chatManager.DispatchServerAnnouncement(
-            Loc.GetString(val ? "chat-manager-dead-looc-chat-enabled-message" : "chat-manager-dead-looc-chat-disabled-message"));
+            Loc.GetString(val
+                ? "chat-manager-dead-looc-chat-enabled-message"
+                : "chat-manager-dead-looc-chat-disabled-message"));
     }
 
     private void OnCritLoocEnabledChanged(bool val)
@@ -114,11 +124,18 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         _critLoocEnabled = val;
         _chatManager.DispatchServerAnnouncement(
-            Loc.GetString(val ? "chat-manager-crit-looc-chat-enabled-message" : "chat-manager-crit-looc-chat-disabled-message"));
+            Loc.GetString(val
+                ? "chat-manager-crit-looc-chat-enabled-message"
+                : "chat-manager-crit-looc-chat-disabled-message"));
     }
 
     private void OnGameChange(GameRunLevelChangedEvent ev)
     {
+        if (_prototypeManager.TryIndex("CentcommAnnouncementVoice", out DatasetPrototype proto))
+            _centcommTTS = _random.Pick(proto.Values);
+        else
+            _centcommTTS = "Widowmaker";
+
         switch (ev.New)
         {
             case GameRunLevel.InRound:
@@ -148,13 +165,24 @@ public sealed partial class ChatSystem : SharedChatSystem
         EntityUid source,
         string message,
         InGameICChatType desiredType,
-        bool hideChat, bool hideLog = false,
+        bool hideChat,
+        bool hideLog = false,
         IConsoleShell? shell = null,
-        ICommonSession? player = null, string? nameOverride = null,
+        ICommonSession? player = null,
+        string? nameOverride = null,
         bool checkRadioPrefix = true,
         bool ignoreActionBlocker = false)
     {
-        TrySendInGameICMessage(source, message, desiredType, hideChat ? ChatTransmitRange.HideChat : ChatTransmitRange.Normal, hideLog, shell, player, nameOverride, checkRadioPrefix, ignoreActionBlocker);
+        TrySendInGameICMessage(source,
+            message,
+            desiredType,
+            hideChat ? ChatTransmitRange.HideChat : ChatTransmitRange.Normal,
+            hideLog,
+            shell,
+            player,
+            nameOverride,
+            checkRadioPrefix,
+            ignoreActionBlocker);
     }
 
     /// <summary>
@@ -179,12 +207,17 @@ public sealed partial class ChatSystem : SharedChatSystem
         string? nameOverride = null,
         bool checkRadioPrefix = true,
         bool ignoreActionBlocker = false
-        )
+    )
     {
         if (HasComp<GhostComponent>(source))
         {
             // Ghosts can only send dead chat messages, so we'll forward it to InGame OOC.
-            TrySendInGameOOCMessage(source, message, InGameOOCChatType.Dead, range == ChatTransmitRange.HideChat, shell, player);
+            TrySendInGameOOCMessage(source,
+                message,
+                InGameOOCChatType.Dead,
+                range == ChatTransmitRange.HideChat,
+                shell,
+                player);
             return;
         }
 
@@ -238,10 +271,16 @@ public sealed partial class ChatSystem : SharedChatSystem
         bool shouldCapitalize = (desiredType != InGameICChatType.Emote);
         bool shouldPunctuate = _configurationManager.GetCVar(CCVars.ChatPunctuation);
         // Capitalizing the word I only happens in English, so we check language here
-        bool shouldCapitalizeTheWordI = (!CultureInfo.CurrentCulture.IsNeutralCulture && CultureInfo.CurrentCulture.Parent.Name == "en")
+        bool shouldCapitalizeTheWordI =
+            (!CultureInfo.CurrentCulture.IsNeutralCulture && CultureInfo.CurrentCulture.Parent.Name == "en")
             || (CultureInfo.CurrentCulture.IsNeutralCulture && CultureInfo.CurrentCulture.Name == "en");
 
-        message = SanitizeInGameICMessage(source, message, out var emoteStr, shouldCapitalize, shouldPunctuate, shouldCapitalizeTheWordI);
+        message = SanitizeInGameICMessage(source,
+            message,
+            out var emoteStr,
+            shouldCapitalize,
+            shouldPunctuate,
+            shouldCapitalizeTheWordI);
 
         // Was there an emote in the message? If so, send it.
         if (player != null && emoteStr != message && emoteStr != null)
@@ -283,7 +322,12 @@ public sealed partial class ChatSystem : SharedChatSystem
                 SendEntityWhisper(source, message, range, null, nameOverride, hideLog, ignoreActionBlocker);
                 break;
             case InGameICChatType.Emote:
-                SendEntityEmote(source, message, range, nameOverride, hideLog: hideLog, ignoreActionBlocker: ignoreActionBlocker);
+                SendEntityEmote(source,
+                    message,
+                    range,
+                    nameOverride,
+                    hideLog: hideLog,
+                    ignoreActionBlocker: ignoreActionBlocker);
                 break;
         }
     }
@@ -295,7 +339,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         bool hideChat,
         IConsoleShell? shell = null,
         ICommonSession? player = null
-        )
+    )
     {
         if (!CanSendInGame(message, shell, player))
             return;
@@ -312,7 +356,8 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         var sendType = type;
         // If dead player LOOC is disabled, unless you are an admin with Moderator perms, send dead messages to dead chat
-        if ((_adminManager.IsAdmin(player) && _adminManager.HasAdminFlag(player, AdminFlags.Moderator)) // Override if admin
+        if ((_adminManager.IsAdmin(player) &&
+             _adminManager.HasAdminFlag(player, AdminFlags.Moderator)) // Override if admin
             || _deadLoocEnabled
             || (!HasComp<GhostComponent>(source) && !_mobStateSystem.IsDead(source))) // Check that player is not dead
         {
@@ -349,18 +394,55 @@ public sealed partial class ChatSystem : SharedChatSystem
         string? sender = null,
         bool playSound = true,
         SoundSpecifier? announcementSound = null,
-        Color? colorOverride = null
-        )
+        Color? colorOverride = null,
+        string originalMessage = "",
+        EntityUid? author = null,
+        string? voice = null,
+        bool usePresetTTS = false
+    )
     {
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
-        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(message)));
+        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message",
+            ("sender", sender),
+            ("message", FormattedMessage.EscapeText(message)));
         _chatManager.ChatMessageToAll(ChatChannel.Radio, message, wrappedMessage, default, false, true, colorOverride);
         if (playSound)
         {
-            if (sender == Loc.GetString("admin-announce-announcer-default")) announcementSound = new SoundPathSpecifier(CentComAnnouncementSound); // Corvax-Announcements: Support custom alert sound from admin panel
-            _audio.PlayGlobal(announcementSound == null ? DefaultAnnouncementSound : _audio.ResolveSound(announcementSound), Filter.Broadcast(), true, AudioParams.Default.WithVolume(-2f));
+            if (announcementSound == null)
+            {
+                if (sender == Loc.GetString("chat-manager-sender-announcement"))
+                    announcementSound =
+                        new SoundPathSpecifier(
+                            CentComAnnouncementSound); // Corvax-Announcements: Support custom alert sound from admin panel
+            }
+
+            _audio.PlayGlobal(announcementSound == null ? DefaultAnnouncementSound : _audio.GetSound(announcementSound),
+                Filter.Broadcast(),
+                true,
+                announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f));
+
+            if (author != null && TryComp<TTSComponent>(author.Value, out var tts) &&
+                tts.VoicePrototypeId != null) // For comms console announcements
+            {
+                var ev = new AnnounceSpokeEvent(tts.VoicePrototypeId, originalMessage, author.Value);
+                RaiseLocalEvent(ev);
+            }
+            else if (usePresetTTS &&
+                     sender == Loc.GetString(
+                         "chat-manager-sender-announcement")) // For admin announcements from Centcomm with preset voices
+            {
+                voice = _centcommTTS;
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, null);
+                RaiseLocalEvent(ev);
+            }
+            else if (voice != null) // For admin announcements
+            {
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, null);
+                RaiseLocalEvent(ev);
+            }
         }
+
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Global station announcement from {sender}: {message}");
     }
 
@@ -385,12 +467,25 @@ public sealed partial class ChatSystem : SharedChatSystem
     {
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
-        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(message)));
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message, wrappedMessage, source ?? default, false, true, colorOverride);
+        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message",
+            ("sender", sender),
+            ("message", FormattedMessage.EscapeText(message)));
+        _chatManager.ChatMessageToManyFiltered(filter,
+            ChatChannel.Radio,
+            message,
+            wrappedMessage,
+            source ?? default,
+            false,
+            true,
+            colorOverride);
         if (playSound)
         {
-            _audio.PlayGlobal(announcementSound?.ToString() ?? DefaultAnnouncementSound, filter, true, AudioParams.Default.WithVolume(-2f));
+            _audio.PlayGlobal(announcementSound?.ToString() ?? DefaultAnnouncementSound,
+                filter,
+                true,
+                AudioParams.Default.WithVolume(-2f));
         }
+
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement from {sender}: {message}");
     }
 
@@ -412,7 +507,9 @@ public sealed partial class ChatSystem : SharedChatSystem
     {
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
-        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(message)));
+        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message",
+            ("sender", sender),
+            ("message", FormattedMessage.EscapeText(message)));
         var station = _stationSystem.GetOwningStation(source);
 
         if (station == null)
@@ -421,15 +518,26 @@ public sealed partial class ChatSystem : SharedChatSystem
             return;
         }
 
-        if (!EntityManager.TryGetComponent<StationDataComponent>(station, out var stationDataComp)) return;
+        if (!EntityManager.TryGetComponent<StationDataComponent>(station, out var stationDataComp))
+            return;
 
         var filter = _stationSystem.GetInStation(stationDataComp);
 
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message, wrappedMessage, source, false, true, colorOverride);
+        _chatManager.ChatMessageToManyFiltered(filter,
+            ChatChannel.Radio,
+            message,
+            wrappedMessage,
+            source,
+            false,
+            true,
+            colorOverride);
 
         if (playDefaultSound)
         {
-            _audio.PlayGlobal(announcementSound?.ToString() ?? DefaultAnnouncementSound, filter, true, AudioParams.Default.WithVolume(-2f));
+            _audio.PlayGlobal(announcementSound?.ToString() ?? DefaultAnnouncementSound,
+                filter,
+                true,
+                AudioParams.Default.WithVolume(-2f));
         }
 
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement on {station} from {sender}: {message}");
@@ -442,7 +550,9 @@ public sealed partial class ChatSystem : SharedChatSystem
     // Goobstation - Starlight collective mind port
     private void SendCollectiveMindChat(EntityUid source, string message, CollectiveMindPrototype? collectiveMind)
     {
-        if (_mobStateSystem.IsDead(source) || collectiveMind == null || message == "" || !TryComp<CollectiveMindComponent>(source, out var sourseCollectiveMindComp) || !sourseCollectiveMindComp.Minds.ContainsKey(collectiveMind.ID))
+        if (_mobStateSystem.IsDead(source) || collectiveMind == null || message == "" ||
+            !TryComp<CollectiveMindComponent>(source, out var sourseCollectiveMindComp) ||
+            !sourseCollectiveMindComp.Minds.ContainsKey(collectiveMind.ID))
             return;
 
         var clients = Filter.Empty();
@@ -481,7 +591,9 @@ public sealed partial class ChatSystem : SharedChatSystem
             ("channel", collectiveMind.LocalizedName),
             ("number", Number));
 
-        _adminLogger.Add(LogType.Chat, LogImpact.Low, $"CollectiveMind chat from {ToPrettyString(source):Player}: {message}");
+        _adminLogger.Add(LogType.Chat,
+            LogImpact.Low,
+            $"CollectiveMind chat from {ToPrettyString(source):Player}: {message}");
 
         // send to normal clients
         _chatManager.ChatMessageToManyFiltered(clients,
@@ -521,7 +633,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         string? nameOverride,
         bool hideLog = false,
         bool ignoreActionBlocker = false
-        )
+    )
     {
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
@@ -551,7 +663,8 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         name = FormattedMessage.EscapeText(name);
 
-        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
+        var wrappedMessage = Loc.GetString(
+            speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
             ("entityName", name),
             ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
             ("fontType", speech.FontId),
@@ -571,17 +684,23 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (originalMessage == message)
         {
             if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user} as {name}: {originalMessage}.");
+                _adminLogger.Add(LogType.Chat,
+                    LogImpact.Low,
+                    $"Say from {ToPrettyString(source):user} as {name}: {originalMessage}.");
             else
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user}: {originalMessage}.");
+                _adminLogger.Add(LogType.Chat,
+                    LogImpact.Low,
+                    $"Say from {ToPrettyString(source):user}: {originalMessage}.");
         }
         else
         {
             if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low,
+                _adminLogger.Add(LogType.Chat,
+                    LogImpact.Low,
                     $"Say from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
             else
-                _adminLogger.Add(LogType.Chat, LogImpact.Low,
+                _adminLogger.Add(LogType.Chat,
+                    LogImpact.Low,
                     $"Say from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
         }
     }
@@ -594,7 +713,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         string? nameOverride,
         bool hideLog = false,
         bool ignoreActionBlocker = false
-        )
+    )
     {
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
@@ -619,13 +738,16 @@ public sealed partial class ChatSystem : SharedChatSystem
             RaiseLocalEvent(source, nameEv);
             name = nameEv.VoiceName;
         }
+
         name = FormattedMessage.EscapeText(name);
 
         var wrappedMessage = Loc.GetString("chat-manager-entity-whisper-wrap-message",
-            ("entityName", name), ("message", FormattedMessage.EscapeText(message)));
+            ("entityName", name),
+            ("message", FormattedMessage.EscapeText(message)));
 
         var wrappedobfuscatedMessage = Loc.GetString("chat-manager-entity-whisper-wrap-message",
-            ("entityName", nameIdentity), ("message", FormattedMessage.EscapeText(obfuscatedMessage)));
+            ("entityName", nameIdentity),
+            ("message", FormattedMessage.EscapeText(obfuscatedMessage)));
 
         var wrappedUnknownMessage = Loc.GetString("chat-manager-entity-whisper-unknown-wrap-message",
             ("message", FormattedMessage.EscapeText(obfuscatedMessage)));
@@ -642,18 +764,40 @@ public sealed partial class ChatSystem : SharedChatSystem
             if (MessageRangeCheck(session, data, range) != MessageRangeCheckResult.Full)
                 continue; // Won't get logged to chat, and ghosts are too far away to see the pop-up, so we just won't send it to them.
 
-            if (data.Range <= (TryComp<ChatModifierComponent>(listener, out var modifier) ? modifier.WhisperListeningRange : WhisperClearRange)) //Corvax-Next-Resomi
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, message, wrappedMessage, source, false, session.Channel);
+            if (data.Range <= (TryComp<ChatModifierComponent>(listener, out var modifier)
+                    ? modifier.WhisperListeningRange
+                    : WhisperClearRange)) //Corvax-Next-Resomi
+                _chatManager.ChatMessageToOne(ChatChannel.Whisper,
+                    message,
+                    wrappedMessage,
+                    source,
+                    false,
+                    session.Channel);
 
             //If listener is too far, they only hear fragments of the message
             else if (_examineSystem.InRangeUnOccluded(source, listener, WhisperMuffledRange))
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedobfuscatedMessage, source, false, session.Channel);
+                _chatManager.ChatMessageToOne(ChatChannel.Whisper,
+                    obfuscatedMessage,
+                    wrappedobfuscatedMessage,
+                    source,
+                    false,
+                    session.Channel);
             //If listener is too far and has no line of sight, they can't identify the whisperer's identity
             else
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedUnknownMessage, source, false, session.Channel);
+                _chatManager.ChatMessageToOne(ChatChannel.Whisper,
+                    obfuscatedMessage,
+                    wrappedUnknownMessage,
+                    source,
+                    false,
+                    session.Channel);
         }
 
-        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
+        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper,
+            message,
+            wrappedMessage,
+            GetNetEntity(source),
+            null,
+            MessageRangeHideChatForReplay(range)));
 
         var ev = new EntitySpokeEvent(source, message, originalMessage, channel, obfuscatedMessage);
         RaiseLocalEvent(source, ev, true);
@@ -661,18 +805,24 @@ public sealed partial class ChatSystem : SharedChatSystem
             if (originalMessage == message)
             {
                 if (name != Name(source))
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Whisper from {ToPrettyString(source):user} as {name}: {originalMessage}.");
+                    _adminLogger.Add(LogType.Chat,
+                        LogImpact.Low,
+                        $"Whisper from {ToPrettyString(source):user} as {name}: {originalMessage}.");
                 else
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Whisper from {ToPrettyString(source):user}: {originalMessage}.");
+                    _adminLogger.Add(LogType.Chat,
+                        LogImpact.Low,
+                        $"Whisper from {ToPrettyString(source):user}: {originalMessage}.");
             }
             else
             {
                 if (name != Name(source))
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Whisper from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
+                    _adminLogger.Add(LogType.Chat,
+                        LogImpact.Low,
+                        $"Whisper from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
                 else
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Whisper from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
+                    _adminLogger.Add(LogType.Chat,
+                        LogImpact.Low,
+                        $"Whisper from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
             }
     }
 
@@ -685,7 +835,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         bool checkEmote = true,
         bool ignoreActionBlocker = false,
         NetUserId? author = null
-        )
+    )
     {
         if (!_actionBlocker.CanEmote(source) && !ignoreActionBlocker)
             return;
@@ -705,7 +855,9 @@ public sealed partial class ChatSystem : SharedChatSystem
         SendInVoiceRange(ChatChannel.Emotes, action, wrappedMessage, source, range, author);
         if (!hideLog)
             if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Emote from {ToPrettyString(source):user} as {name}: {action}");
+                _adminLogger.Add(LogType.Chat,
+                    LogImpact.Low,
+                    $"Emote from {ToPrettyString(source):user} as {name}: {action}");
             else
                 _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Emote from {ToPrettyString(source):user}: {action}");
     }
@@ -717,9 +869,11 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (_adminManager.IsAdmin(player))
         {
-            if (!_adminLoocEnabled) return;
+            if (!_adminLoocEnabled)
+                return;
         }
-        else if (!_loocEnabled) return;
+        else if (!_loocEnabled)
+            return;
 
         // If crit player LOOC is disabled, don't send the message at all.
         if (!_critLoocEnabled && _mobStateSystem.IsCritical(source))
@@ -729,7 +883,12 @@ public sealed partial class ChatSystem : SharedChatSystem
             ("entityName", name),
             ("message", FormattedMessage.EscapeText(message)));
 
-        SendInVoiceRange(ChatChannel.LOOC, message, wrappedMessage, source, hideChat ? ChatTransmitRange.HideChat : ChatTransmitRange.Normal, player.UserId);
+        SendInVoiceRange(ChatChannel.LOOC,
+            message,
+            wrappedMessage,
+            source,
+            hideChat ? ChatTransmitRange.HideChat : ChatTransmitRange.Normal,
+            player.UserId);
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"LOOC from {player:Player}: {message}");
     }
 
@@ -755,8 +914,16 @@ public sealed partial class ChatSystem : SharedChatSystem
             _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Dead chat from {player:Player}: {message}");
         }
 
-        _chatManager.ChatMessageToMany(ChatChannel.Dead, message, wrappedMessage, source, hideChat, true, clients.ToList(), author: player.UserId);
+        _chatManager.ChatMessageToMany(ChatChannel.Dead,
+            message,
+            wrappedMessage,
+            source,
+            hideChat,
+            true,
+            clients.ToList(),
+            author: player.UserId);
     }
+
     #endregion
 
     #region Utility
@@ -780,7 +947,9 @@ public sealed partial class ChatSystem : SharedChatSystem
     ///     Checks if a target as returned from GetRecipients should receive the message.
     ///     Keep in mind data.Range is -1 for out of range observers.
     /// </summary>
-    private MessageRangeCheckResult MessageRangeCheck(ICommonSession session, ICChatRecipientData data, ChatTransmitRange range)
+    private MessageRangeCheckResult MessageRangeCheck(ICommonSession session,
+        ICChatRecipientData data,
+        ChatTransmitRange range)
     {
         var initialResult = MessageRangeCheckResult.Full;
         switch (range)
@@ -789,15 +958,20 @@ public sealed partial class ChatSystem : SharedChatSystem
                 initialResult = MessageRangeCheckResult.Full;
                 break;
             case ChatTransmitRange.GhostRangeLimit:
-                initialResult = (data.Observer && data.Range < 0 && !_adminManager.IsAdmin(session)) ? MessageRangeCheckResult.HideChat : MessageRangeCheckResult.Full;
+                initialResult = (data.Observer && data.Range < 0 && !_adminManager.IsAdmin(session))
+                    ? MessageRangeCheckResult.HideChat
+                    : MessageRangeCheckResult.Full;
                 break;
             case ChatTransmitRange.HideChat:
                 initialResult = MessageRangeCheckResult.HideChat;
                 break;
             case ChatTransmitRange.NoGhosts:
-                initialResult = (data.Observer && !_adminManager.IsAdmin(session)) ? MessageRangeCheckResult.Disallowed : MessageRangeCheckResult.Full;
+                initialResult = (data.Observer && !_adminManager.IsAdmin(session))
+                    ? MessageRangeCheckResult.Disallowed
+                    : MessageRangeCheckResult.Full;
                 break;
         }
+
         var insistHideChat = data.HideChatOverride ?? false;
         var insistNoHideChat = !(data.HideChatOverride ?? true);
         if (insistHideChat && initialResult == MessageRangeCheckResult.Full)
@@ -810,7 +984,12 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <summary>
     ///     Sends a chat message to the given players in range of the source entity.
     /// </summary>
-    private void SendInVoiceRange(ChatChannel channel, string message, string wrappedMessage, EntityUid source, ChatTransmitRange range, NetUserId? author = null)
+    private void SendInVoiceRange(ChatChannel channel,
+        string message,
+        string wrappedMessage,
+        EntityUid source,
+        ChatTransmitRange range,
+        NetUserId? author = null)
     {
         foreach (var (session, data) in GetRecipients(source, VoiceRange))
         {
@@ -818,10 +997,21 @@ public sealed partial class ChatSystem : SharedChatSystem
             if (entRange == MessageRangeCheckResult.Disallowed)
                 continue;
             var entHideChat = entRange == MessageRangeCheckResult.HideChat;
-            _chatManager.ChatMessageToOne(channel, message, wrappedMessage, source, entHideChat, session.Channel, author: author);
+            _chatManager.ChatMessageToOne(channel,
+                message,
+                wrappedMessage,
+                source,
+                entHideChat,
+                session.Channel,
+                author: author);
         }
 
-        _replay.RecordServerMessage(new ChatMessage(channel, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
+        _replay.RecordServerMessage(new ChatMessage(channel,
+            message,
+            wrappedMessage,
+            GetNetEntity(source),
+            null,
+            MessageRangeHideChatForReplay(range)));
     }
 
     /// <summary>
@@ -851,7 +1041,12 @@ public sealed partial class ChatSystem : SharedChatSystem
     }
 
     // ReSharper disable once InconsistentNaming
-    private string SanitizeInGameICMessage(EntityUid source, string message, out string? emoteStr, bool capitalize = true, bool punctuate = false, bool capitalizeTheWordI = true)
+    private string SanitizeInGameICMessage(EntityUid source,
+        string message,
+        out string? emoteStr,
+        bool capitalize = true,
+        bool punctuate = false,
+        bool capitalizeTheWordI = true)
     {
         var newMessage = SanitizeMessageReplaceWords(message.Trim());
 
@@ -921,7 +1116,8 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     public string SanitizeMessageReplaceWords(string message)
     {
-        if (string.IsNullOrEmpty(message)) return message;
+        if (string.IsNullOrEmpty(message))
+            return message;
 
         var msg = message;
 
@@ -958,7 +1154,8 @@ public sealed partial class ChatSystem : SharedChatSystem
             var observer = ghostHearing.HasComponent(playerEntity);
 
             // even if they are a ghost hearer, in some situations we still need the range
-            if (sourceCoords.TryDistance(EntityManager, transformEntity.Coordinates, out var distance) && distance < voiceGetRange)
+            if (sourceCoords.TryDistance(EntityManager, transformEntity.Coordinates, out var distance) &&
+                distance < voiceGetRange)
             {
                 recipients.Add(player, new ICChatRecipientData(distance, observer));
                 continue;
@@ -1003,6 +1200,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         {
             sb.Append(_random.Pick(charOptions));
         }
+
         return sb.ToString();
     }
 
@@ -1013,7 +1211,10 @@ public sealed partial class ChatSystem : SharedChatSystem
 ///     This event is raised before chat messages are sent out to clients. This enables some systems to send the chat
 ///     messages to otherwise out-of view entities (e.g. for multiple viewports from cameras).
 /// </summary>
-public record ExpandICChatRecipientsEvent(EntityUid Source, float VoiceRange, Dictionary<ICommonSession, ChatSystem.ICChatRecipientData> Recipients)
+public record ExpandICChatRecipientsEvent(
+    EntityUid Source,
+    float VoiceRange,
+    Dictionary<ICommonSession, ChatSystem.ICChatRecipientData> Recipients)
 {
 }
 
@@ -1060,13 +1261,70 @@ public sealed class EntitySpokeEvent : EntityEventArgs
     /// </summary>
     public RadioChannelPrototype? Channel;
 
-    public EntitySpokeEvent(EntityUid source, string message, string originalMessage, RadioChannelPrototype? channel, string? obfuscatedMessage)
+    public EntitySpokeEvent(EntityUid source,
+        string message,
+        string originalMessage,
+        RadioChannelPrototype? channel,
+        string? obfuscatedMessage)
     {
         Source = source;
         Message = message;
         OriginalMessage = originalMessage; // Corvax-TTS: Spec symbol sanitize
         Channel = channel;
         ObfuscatedMessage = obfuscatedMessage;
+    }
+}
+
+/// <summary>
+///     Raised on an entity when it sends direct message to another entity
+/// </summary>
+public sealed class EntitySpokeToEntityEvent : EntityEventArgs
+{
+    public readonly EntityUid Target;
+    public readonly string Message;
+
+    public EntitySpokeToEntityEvent(EntityUid target, string message)
+    {
+        Target = target;
+        Message = message;
+    }
+}
+
+/// <summary>
+///     Raised on an entity after <see cref="EntitySpokeEvent"/> when it speaks using radio.
+/// </summary>
+public sealed class RadioSpokeEvent : EntityEventArgs
+{
+    public readonly EntityUid Source;
+    public readonly string Message;
+
+    /// <summary>
+    ///     Of course, we can just use <see cref="EntitySpokeEvent"/>, but it's easier to send a message using RadioSystem
+    /// </summary>
+    public readonly EntityUid[] Receivers;
+
+    public RadioSpokeEvent(EntityUid source, string message, EntityUid[] receivers)
+    {
+        Source = source;
+        Message = message;
+        Receivers = receivers;
+    }
+}
+
+/// <summary>
+///     Raised when we don't have direct source
+/// </summary>
+public sealed class AnnounceSpokeEvent : EntityEventArgs
+{
+    public readonly string Voice;
+    public readonly string Message;
+    public readonly EntityUid? Source;
+
+    public AnnounceSpokeEvent(string voice, string message, EntityUid? source)
+    {
+        Voice = voice;
+        Message = message;
+        Source = source;
     }
 }
 
@@ -1098,10 +1356,13 @@ public enum ChatTransmitRange : byte
 {
     /// Acts normal, ghosts can hear across the map, etc.
     Normal,
+
     /// Normal but ghosts are still range-limited.
     GhostRangeLimit,
+
     /// Hidden from the chat window.
     HideChat,
+
     /// Ghosts can't hear or see it at all. Regular players can if in-range.
     NoGhosts
 }

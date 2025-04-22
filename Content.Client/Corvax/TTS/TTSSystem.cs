@@ -22,10 +22,8 @@ public sealed class TTSSystem : EntitySystem
     [Dependency] private readonly AudioSystem _audio = default!;
 
     private ISawmill _sawmill = default!;
-    private static MemoryContentRoot _contentRoot = new();
+    private readonly MemoryContentRoot _contentRoot = new();
     private static readonly ResPath Prefix = ResPath.Root / "TTS";
-
-    private static bool _contentRootAdded;
 
     /// <summary>
     /// Reducing the volume of the TTS when whispering. Will be converted to logarithm.
@@ -38,17 +36,16 @@ public sealed class TTSSystem : EntitySystem
     private const float MinimalVolume = -5f;
 
     private float _volume = 0.0f;
+    private float _volumeRadio = 1.0f;
+    private bool _playRadio = true;
     private int _fileIdx = 0;
 
     public override void Initialize()
     {
-        if (!_contentRootAdded)
-        {
-            _contentRootAdded = true;
-            _res.AddRoot(Prefix, _contentRoot);
-        }
-
         _sawmill = Logger.GetSawmill("tts");
+        _res.AddRoot(Prefix, _contentRoot);
+        _cfg.OnValueChanged(CCCVars.TTSRadioVolume, OnTtsRadioVolumeChanged,  true);
+        _cfg.OnValueChanged(CCCVars.TTSPlayRadio,  OnTtsPlayRadioChanged,   true);
         _cfg.OnValueChanged(CCCVars.TTSVolume, OnTtsVolumeChanged, true);
         SubscribeNetworkEvent<PlayTTSEvent>(OnPlayTTS);
     }
@@ -57,6 +54,7 @@ public sealed class TTSSystem : EntitySystem
     {
         base.Shutdown();
         _cfg.UnsubValueChanged(CCCVars.TTSVolume, OnTtsVolumeChanged);
+        _contentRoot.Dispose();
     }
 
     public void RequestPreviewTTS(string voiceId)
@@ -69,8 +67,22 @@ public sealed class TTSSystem : EntitySystem
         _volume = volume;
     }
 
+    private void OnTtsRadioVolumeChanged(float volume)
+    {
+        _volumeRadio = volume;
+    }
+    private void OnTtsPlayRadioChanged(bool radio)
+    {
+        _playRadio = radio;
+    }
+
     private void OnPlayTTS(PlayTTSEvent ev)
     {
+        if (ev.IsRadio && !_playRadio)
+        {
+            return;
+        }
+
         _sawmill.Verbose($"Play TTS audio {ev.Data.Length} bytes from {ev.SourceUid} entity");
 
         var filePath = new ResPath($"{_fileIdx++}.ogg");
@@ -80,7 +92,7 @@ public sealed class TTSSystem : EntitySystem
         audioResource.Load(IoCManager.Instance!, Prefix / filePath);
 
         var audioParams = AudioParams.Default
-            .WithVolume(AdjustVolume(ev.IsWhisper))
+            .WithVolume(AdjustVolume(ev.IsWhisper, ev.IsRadio))
             .WithMaxDistance(AdjustDistance(ev.IsWhisper));
 
         var soundSpecifier = new ResolvedPathSpecifier(Prefix / filePath);
@@ -98,13 +110,18 @@ public sealed class TTSSystem : EntitySystem
         _contentRoot.RemoveFile(filePath);
     }
 
-    private float AdjustVolume(bool isWhisper)
+    private float AdjustVolume(bool isWhisper, bool isRadio)
     {
         var volume = MinimalVolume + SharedAudioSystem.GainToVolume(_volume);
 
         if (isWhisper)
         {
             volume -= SharedAudioSystem.GainToVolume(WhisperFade);
+        }
+
+        if (isRadio)
+        {
+            volume = MinimalVolume + SharedAudioSystem.GainToVolume(_volumeRadio);
         }
 
         return volume;
