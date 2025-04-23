@@ -57,10 +57,10 @@
           ADTBlueShieldOfficer: [ 0, 1 ] #ADT-Roles
           #supply
           Quartermaster: [ 1, 1 ]
-          SalvageSpecialist: [ 3, 3 ]
+          SalvageSpecialist: [ 5, 5 ]
           CargoTechnician: [ 3, 4 ]
           #civilian
-          Passenger: [ -1, -1 ]
+          Passenger: [ 2, 2 ]
           Clown: [ 1, 1 ]
           Mime: [ 1, 1 ]
           Musician: [ 1, 1 ]
