@@ -6,7 +6,7 @@ using Content.Shared.Emp;
 using Content.Shared.Examine;
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
-
+using Content.Shared.Projectiles;
 namespace Content.Server.Emp;
 
 public sealed class EmpSystem : SharedEmpSystem

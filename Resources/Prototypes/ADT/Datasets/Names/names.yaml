@@ -1,0 +1,23 @@
+- type: dataset
+  id: NamesFirstFemale
+  values:
+    - "Alice"
+    - "Barbara"
+    - "Carol"
+    # Add more female names as needed
+
+- type: dataset
+  id: NamesFirstMale
+  values:
+    - "Bob"
+    - "Charlie"
+    - "David"
+    # Add more male names as needed
+
+- type: dataset
+  id: NamesLast
+  values:
+    - "Smith"
+    - "Johnson"
+    - "Williams"
+    # Add more last names

@@ -25,7 +25,7 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-
+using Content.Server.Explosion.Components;
 namespace Content.Server.ADT.Silicon.Charge;
 
 public sealed class SiliconChargerSystem : EntitySystem
@@ -270,14 +270,7 @@ public sealed class SiliconChargerSystem : EntitySystem
         else
             _battery.SetCharge(entity, batteryComp.MaxCharge, batteryComp);
 
-        // If the battery is too small, explode it.
-        if ((batteryComp.MaxCharge - batteryComp.CurrentCharge) * 1.2 + batteryComp.MaxCharge < chargerComp.MinChargeSize)
-        {
-            if (TryComp<ExplosiveComponent>(entity, out var explosiveComp))
-                _explosion.TriggerExplosive(entity, explosiveComp);
-            else
-                _explosion.QueueExplosion(entity, "Default", batteryComp.MaxCharge / 50, 1.5f, 200, user: chargerUid);
-        }
+
     }
 
     private void BurnEntity(EntityUid entity, DamageableComponent damageComp, float frameTime, SiliconChargerComponent chargerComp, EntityUid chargerUid)

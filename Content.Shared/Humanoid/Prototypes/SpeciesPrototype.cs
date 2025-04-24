@@ -92,10 +92,10 @@ public sealed partial class SpeciesPrototype : IPrototype
     public HumanoidSkinColor SkinColoration { get; private set; }
 
     [DataField]
-    public ProtoId<LocalizedDatasetPrototype> MaleFirstNames { get; private set; } = "NamesFirstMale";
+    public string MaleFirstNames { get; private set; } = "NamesFirstMale";
 
     [DataField]
-    public ProtoId<LocalizedDatasetPrototype> FemaleFirstNames { get; private set; } = "NamesFirstFemale";
+    public string FemaleFirstNames { get; private set; } = "NamesFirstFemale";
 
     // Corvax-LastnameGender-Start: Split lastname field by gender
     [DataField]
@@ -144,4 +144,5 @@ public enum SpeciesNaming : byte
     FirstDashFirst,
     TheFirstofLast,
     FirstDashLast, // Parkstation-IPC
+    FirstDashFirstDashFirst
 }
