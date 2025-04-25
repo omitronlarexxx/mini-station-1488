@@ -6,6 +6,15 @@
   name: Urist McPositronic
   #description: [mob_ipc-desc]
   components:
+
+  - type: InventorySlots
+    slots:
+      jumpsuit: {}  # Стандартные слоты
+      mask: {}
+      ears:  # Новый слот для гарнитуры
+        name: "Audio Interface"
+        showInWindow: true
+
   - type: InteractionPopup
     interactSuccessString: petting-success-ipc
     #interactFailureString: petting-failure-cleanbot
