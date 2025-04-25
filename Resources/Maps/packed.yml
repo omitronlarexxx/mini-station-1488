@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 247.2.0
+  engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 03/07/2025 19:06:04
-  entityCount: 15478
+  time: 04/25/2025 17:03:42
+  entityCount: 15480
 maps:
 - 126
 grids:
@@ -2734,6 +2734,11 @@ entities:
             2238: 76,-7
             2239: 77,-7
         - node:
+            color: '#A4610696'
+            id: CheckerNESW
+          decals:
+            5268: 5,31
+        - node:
             color: '#D4D4D428'
             id: CheckerNESW
           decals:
@@ -2897,6 +2902,7 @@ entities:
             4505: 35,-33
             4571: 58,11
             5176: 6,-20
+            5267: 33,46
         - node:
             angle: 1.5707963267948966 rad
             color: '#FFFFFFFF'
@@ -4316,6 +4322,11 @@ entities:
           decals:
             2838: 39,24
             2839: 40,24
+        - node:
+            color: '#8D1C9996'
+            id: MarkupSquareQuater
+          decals:
+            5269: 5,31
         - node:
             color: '#334E6DC8'
             id: QuarterTileOverlayGreyscale
@@ -6748,6 +6759,13 @@ entities:
       parent: 13567
     - type: InstantAction
       container: 13567
+- proto: ADTLockerBlueshieldFilledHardsuit
+  entities:
+  - uid: 1053
+    components:
+    - type: Transform
+      pos: 33.5,46.5
+      parent: 2
 - proto: AirAlarm
   entities:
   - uid: 5
@@ -9610,7 +9628,7 @@ entities:
       pos: 44.5,30.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -2424.868
+      secondsUntilStateChange: -3006.967
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -12279,6 +12297,7 @@ entities:
     - type: Transform
       pos: 19.585323,-12.603194
       parent: 2
+    - type: Visibility
 - proto: BoxSechud
   entities:
   - uid: 7681
@@ -33251,6 +33270,13 @@ entities:
     - type: Transform
       pos: 59.5,38.5
       parent: 2
+- proto: CaptainDrobe
+  entities:
+  - uid: 10279
+    components:
+    - type: Transform
+      pos: 37.5,40.5
+      parent: 2
 - proto: CaptainIDCard
   entities:
   - uid: 1255
@@ -38672,6 +38698,7 @@ entities:
     - type: Transform
       pos: 27.493172,5.5327587
       parent: 2
+    - type: Visibility
 - proto: ClothingBeltChampion
   entities:
   - uid: 12103
@@ -38996,13 +39023,6 @@ entities:
     components:
     - type: Transform
       pos: 59.51385,-3.3579187
-      parent: 2
-- proto: ClothingHeadsetMining
-  entities:
-  - uid: 2134
-    components:
-    - type: Transform
-      pos: 5.5,31.5
       parent: 2
 - proto: ClothingMaskBear
   entities:
@@ -39904,14 +39924,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 61.5,8.5
       parent: 2
-- proto: ComputerSalvageExpedition
-  entities:
-  - uid: 5046
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 9.5,31.5
-      parent: 2
 - proto: ComputerShuttleCargo
   entities:
   - uid: 7879
@@ -39919,6 +39931,14 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 6.5,25.5
+      parent: 2
+- proto: ComputerShuttleMiningLavaland
+  entities:
+  - uid: 5046
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 9.5,31.5
       parent: 2
 - proto: ComputerSolarControl
   entities:
@@ -44130,13 +44150,6 @@ entities:
         actions: !type:Container
           ents:
           - 5500
-- proto: DresserCaptainFilled
-  entities:
-  - uid: 10279
-    components:
-    - type: Transform
-      pos: 37.5,40.5
-      parent: 2
 - proto: DresserChiefEngineerFilled
   entities:
   - uid: 7376
@@ -47435,11 +47448,6 @@ entities:
       parent: 2
 - proto: FoodBoxDonut
   entities:
-  - uid: 4982
-    components:
-    - type: Transform
-      pos: 33.510082,46.65118
-      parent: 2
   - uid: 6761
     components:
     - type: Transform
@@ -47744,6 +47752,13 @@ entities:
     components:
     - type: Transform
       pos: 49.5,-25.5
+      parent: 2
+- proto: GasMinerPlasma
+  entities:
+  - uid: 15479
+    components:
+    - type: Transform
+      pos: 49.5,-31.5
       parent: 2
 - proto: GasMinerWaterVapor
   entities:
@@ -69225,6 +69240,11 @@ entities:
     - type: Transform
       pos: 6.5,30.5
       parent: 2
+  - uid: 4982
+    components:
+    - type: Transform
+      pos: 5.5,31.5
+      parent: 2
   - uid: 8202
     components:
     - type: Transform
@@ -70103,11 +70123,6 @@ entities:
     - type: Transform
       pos: 54.520523,-14.325092
       parent: 2
-  - uid: 14760
-    components:
-    - type: Transform
-      pos: 5.5,31.5
-      parent: 2
 - proto: Pen
   entities:
   - uid: 137
@@ -70218,14 +70233,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 29.5,-7.5
-      parent: 2
-- proto: Pickaxe
-  entities:
-  - uid: 14759
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 5.5,31.5
       parent: 2
 - proto: PlantBGoneSpray
   entities:
@@ -73551,11 +73558,6 @@ entities:
     components:
     - type: Transform
       pos: -0.5,-5.5
-      parent: 2
-  - uid: 553
-    components:
-    - type: Transform
-      pos: 5.5,31.5
       parent: 2
   - uid: 826
     components:
@@ -77456,13 +77458,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 40.5,18.5
       parent: 2
-- proto: Shovel
-  entities:
-  - uid: 1053
-    components:
-    - type: Transform
-      pos: 5.5,31.5
-      parent: 2
 - proto: ShuttersNormalOpen
   entities:
   - uid: 265
@@ -79950,6 +79945,13 @@ entities:
       parent: 2
     - type: SpamEmitSound
       enabled: False
+- proto: SpawnADTBlueShieldOfficer
+  entities:
+  - uid: 14760
+    components:
+    - type: Transform
+      pos: 33.5,45.5
+      parent: 2
 - proto: SpawnMechRipley
   entities:
   - uid: 14751
@@ -79998,6 +80000,13 @@ entities:
     components:
     - type: Transform
       pos: 31.5,41.5
+      parent: 2
+- proto: SpawnMobGorillaLargo
+  entities:
+  - uid: 14740
+    components:
+    - type: Transform
+      pos: 5.5,15.5
       parent: 2
 - proto: SpawnMobMcGriff
   entities:
@@ -80063,13 +80072,6 @@ entities:
     components:
     - type: Transform
       pos: 73.5,-1.5
-      parent: 2
-- proto: SpawnMobRaccoonMorticia
-  entities:
-  - uid: 14740
-    components:
-    - type: Transform
-      pos: 5.5,15.5
       parent: 2
 - proto: SpawnMobShiva
   entities:
@@ -80403,6 +80405,11 @@ entities:
       parent: 2
 - proto: SpawnPointSalvageSpecialist
   entities:
+  - uid: 553
+    components:
+    - type: Transform
+      pos: 6.5,32.5
+      parent: 2
   - uid: 14764
     components:
     - type: Transform
@@ -80458,6 +80465,34 @@ entities:
     components:
     - type: Transform
       pos: 29.5,29.5
+      parent: 2
+- proto: SpawnPointSeniorEngineer
+  entities:
+  - uid: 2134
+    components:
+    - type: Transform
+      pos: 17.5,-24.5
+      parent: 2
+- proto: SpawnPointSeniorOfficer
+  entities:
+  - uid: 15480
+    components:
+    - type: Transform
+      pos: 33.5,29.5
+      parent: 2
+- proto: SpawnPointSeniorPhysician
+  entities:
+  - uid: 14759
+    components:
+    - type: Transform
+      pos: 59.5,-1.5
+      parent: 2
+- proto: SpawnPointSeniorResearcher
+  entities:
+  - uid: 4981
+    components:
+    - type: Transform
+      pos: 52.5,18.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -83568,11 +83603,6 @@ entities:
     components:
     - type: Transform
       pos: 35.5,46.5
-      parent: 2
-  - uid: 4981
-    components:
-    - type: Transform
-      pos: 33.5,46.5
       parent: 2
   - uid: 4983
     components:

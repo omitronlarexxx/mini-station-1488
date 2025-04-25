@@ -1,6 +1,17 @@
 meta:
-  format: 6
-  postmapinit: false
+  format: 7
+  category: Map
+  engineVersion: 250.0.0
+  forkId: ""
+  forkVersion: ""
+  time: 04/25/2025 16:41:40
+  entityCount: 2508
+maps:
+- 1
+grids:
+- 2
+orphans: []
+nullspace: []
 tilemap:
   0: Space
   1: FloorBlueCircuit
@@ -38,7 +49,6 @@ entities:
     - type: MovedGrids
     - type: Broadphase
     - type: OccluderTree
-    - type: LoadedMap
   - uid: 2
     components:
     - type: MetaData
@@ -550,6 +560,7 @@ entities:
             5: 4,-16
             6: 4,-15
             256: 0,11
+            420: 21,-4
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -5942,41 +5953,17 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 24.5,3.5
       parent: 2
-  - uid: 867
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 21.5,-0.5
-      parent: 2
   - uid: 868
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 21.5,1.5
       parent: 2
-  - uid: 869
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 21.5,2.5
-      parent: 2
-  - uid: 870
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 23.5,2.5
-      parent: 2
   - uid: 871
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 23.5,1.5
-      parent: 2
-  - uid: 872
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 23.5,-0.5
       parent: 2
 - proto: ChemDispenser
   entities:
@@ -6177,6 +6164,7 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+    - type: Visibility
 - proto: ClothingEyesGlassesMeson
   entities:
   - uid: 900
@@ -6518,14 +6506,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -4.5,10.5
       parent: 2
-- proto: ComputerSalvageExpedition
-  entities:
-  - uid: 950
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 2.5,15.5
-      parent: 2
 - proto: ComputerShuttle
   entities:
   - uid: 951
@@ -6540,6 +6520,14 @@ entities:
     components:
     - type: Transform
       pos: 2.5,11.5
+      parent: 2
+- proto: ComputerShuttleMiningLavaland
+  entities:
+  - uid: 950
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 2.5,15.5
       parent: 2
 - proto: ComputerStationRecords
   entities:
@@ -7181,10 +7169,10 @@ entities:
       parent: 2
 - proto: DogBed
   entities:
-  - uid: 1055
+  - uid: 2507
     components:
     - type: Transform
-      pos: 21.5,-3.5
+      pos: 24.5,-0.5
       parent: 2
 - proto: DoorRemoteAll
   entities:
@@ -11625,6 +11613,20 @@ entities:
     - type: Transform
       pos: 10.198524,-0.49005228
       parent: 2
+- proto: LockerChiefEngineerFilled
+  entities:
+  - uid: 870
+    components:
+    - type: Transform
+      pos: 23.5,2.5
+      parent: 2
+- proto: LockerChiefMedicalOfficerFilled
+  entities:
+  - uid: 869
+    components:
+    - type: Transform
+      pos: 21.5,-0.5
+      parent: 2
 - proto: LockerEngineerFilledHardsuit
   entities:
   - uid: 1649
@@ -11643,13 +11645,6 @@ entities:
     components:
     - type: Transform
       pos: 19.5,1.5
-      parent: 2
-- proto: LockerFreezerVaultFilled
-  entities:
-  - uid: 1652
-    components:
-    - type: Transform
-      pos: 24.5,-0.5
       parent: 2
 - proto: LockerHeadOfSecurityFilledHardsuit
   entities:
@@ -11671,6 +11666,20 @@ entities:
     components:
     - type: Transform
       pos: 12.5,-2.5
+      parent: 2
+- proto: LockerQuarterMasterFilled
+  entities:
+  - uid: 872
+    components:
+    - type: Transform
+      pos: 23.5,-0.5
+      parent: 2
+- proto: LockerResearchDirectorFilled
+  entities:
+  - uid: 867
+    components:
+    - type: Transform
+      pos: 21.5,2.5
       parent: 2
 - proto: LockerScienceFilled
   entities:
@@ -11791,6 +11800,13 @@ entities:
     components:
     - type: Transform
       pos: 11.5,-10.5
+      parent: 2
+- proto: NuclearBomb
+  entities:
+  - uid: 1055
+    components:
+    - type: Transform
+      pos: 21.5,-3.5
       parent: 2
 - proto: OreProcessor
   entities:
@@ -13670,10 +13686,10 @@ entities:
       parent: 2
 - proto: SpawnMobFoxRenault
   entities:
-  - uid: 1977
+  - uid: 2508
     components:
     - type: Transform
-      pos: 21.5,-3.5
+      pos: 24.5,-0.5
       parent: 2
 - proto: SpawnPointAtmos
   entities:
@@ -13729,8 +13745,20 @@ entities:
     - type: Transform
       pos: 8.5,0.5
       parent: 2
+- proto: SpawnPointChiefMedicalOfficer
+  entities:
+  - uid: 2502
+    components:
+    - type: Transform
+      pos: 21.5,1.5
+      parent: 2
 - proto: SpawnPointHeadOfSecurity
   entities:
+  - uid: 1977
+    components:
+    - type: Transform
+      pos: 24.5,3.5
+      parent: 2
   - uid: 1986
     components:
     - type: Transform
@@ -13798,6 +13826,20 @@ entities:
     - type: Transform
       pos: 8.5,15.5
       parent: 2
+- proto: SpawnPointQuartermaster
+  entities:
+  - uid: 1652
+    components:
+    - type: Transform
+      pos: 25.5,1.5
+      parent: 2
+- proto: SpawnPointResearchDirector
+  entities:
+  - uid: 2501
+    components:
+    - type: Transform
+      pos: 23.5,1.5
+      parent: 2
 - proto: SpawnPointSalvageSpecialist
   entities:
   - uid: 953
@@ -13828,6 +13870,34 @@ entities:
     components:
     - type: Transform
       pos: 17.5,-3.5
+      parent: 2
+- proto: SpawnPointSeniorEngineer
+  entities:
+  - uid: 2504
+    components:
+    - type: Transform
+      pos: -20.5,-0.5
+      parent: 2
+- proto: SpawnPointSeniorOfficer
+  entities:
+  - uid: 2506
+    components:
+    - type: Transform
+      pos: 17.5,0.5
+      parent: 2
+- proto: SpawnPointSeniorPhysician
+  entities:
+  - uid: 2503
+    components:
+    - type: Transform
+      pos: 8.5,-2.5
+      parent: 2
+- proto: SpawnPointSeniorResearcher
+  entities:
+  - uid: 2505
+    components:
+    - type: Transform
+      pos: -2.5,10.5
       parent: 2
 - proto: SpawnPointStationEngineer
   entities:
