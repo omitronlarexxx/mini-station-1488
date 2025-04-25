@@ -120,6 +120,12 @@
     - GalacticCommon
     - BorgTalk
     - RobotTalk
+  - type: UserInterface
+    interfaces:
+      enum.IpcScreenUiKey.Key:
+        type: IpcScreenBoundUserInterface
+  - type: IpcScreen
+  - type: CanEnterCryostorage
   - type: Tag
     tags:
     # - ChangelingBlacklist
@@ -132,7 +138,6 @@
   #   tallscale: 1.1
   #   short: true
   #   shortscale: 0.9
-
 - type: entity
   save: false
   name: Urist McPositronic
