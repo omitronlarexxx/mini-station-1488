@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Grid
-  engineVersion: 247.1.0
+  engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 02/22/2025 13:41:59
-  entityCount: 567
+  time: 04/26/2025 19:05:37
+  entityCount: 566
 maps: []
 grids:
 - 2
@@ -110,14 +110,6 @@ entities:
           moles:
           - 21.824879
           - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
           - 0
           - 0
           - 0
@@ -3045,6 +3037,13 @@ entities:
     - type: Transform
       pos: 8.5,17.5
       parent: 2
+- proto: VisitorBlackmarketeerSpawner
+  entities:
+  - uid: 177
+    components:
+    - type: Transform
+      pos: 10.5,2.5
+      parent: 2
 - proto: WallWood
   entities:
   - uid: 126
@@ -3623,7 +3622,7 @@ entities:
       pos: 10.5,15.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -41936.418
+      secondsUntilStateChange: -42032.137
       state: Opening
   - uid: 508
     components:
