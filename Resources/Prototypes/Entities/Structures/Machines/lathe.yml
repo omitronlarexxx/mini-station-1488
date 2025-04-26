@@ -326,6 +326,12 @@
     - MechEquipment
     - AdvancedSurgeryBorg
     - CyberneticEnhancementsDynamic
+    - ADTGygaxPack
+    - ADTOdysseusPack
+    - ADTClarkePack
+    - ADTDurandPack
+    - ADTPhazonPack
+    - ADTMechEquipmentPack
   - type: MaterialStorage
     whitelist:
       tags:
