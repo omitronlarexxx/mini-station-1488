@@ -1,16 +1,16 @@
 meta:
   format: 7
-  category: Map
+  category: Grid
   engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 04/26/2025 16:03:21
-  entityCount: 2111
-maps:
-- 176
+  time: 04/23/2025 20:51:26
+  entityCount: 2104
+maps: []
 grids:
 - 2
-orphans: []
+orphans:
+- 2
 nullspace: []
 tilemap:
   0: Space
@@ -40,7 +40,7 @@ entities:
       name: Lavaland Outpost
     - type: Transform
       pos: -0.5,-0.5
-      parent: 176
+      parent: invalid
     - type: MapGrid
       chunks:
         0,0:
@@ -641,25 +641,6 @@ entities:
     - type: GravityShake
       shakeTimes: 10
     - type: LavalandStation
-  - uid: 176
-    components:
-    - type: MetaData
-      name: Map Entity
-    - type: Transform
-    - type: Map
-      mapPaused: True
-    - type: PhysicsMap
-    - type: GridTree
-    - type: MovedGrids
-    - type: Broadphase
-    - type: OccluderTree
-- proto: ADTMechWeaponCutter
-  entities:
-  - uid: 583
-    components:
-    - type: Transform
-      pos: 23.481806,-1.5254333
-      parent: 2
 - proto: AirAlarm
   entities:
   - uid: 3
@@ -1341,6 +1322,13 @@ entities:
     components:
     - type: Transform
       pos: 24.5,2.5
+      parent: 2
+- proto: AutolatheMachineCircuitboard
+  entities:
+  - uid: 176
+    components:
+    - type: Transform
+      pos: 23.486536,-1.4167075
       parent: 2
 - proto: Barricade
   entities:
@@ -4228,6 +4216,11 @@ entities:
     - type: Transform
       pos: 31.5,6.5
       parent: 2
+  - uid: 1190
+    components:
+    - type: Transform
+      pos: 19.5,-4.5
+      parent: 2
   - uid: 1191
     components:
     - type: Transform
@@ -4280,13 +4273,6 @@ entities:
           component: ClothingSpeedModifier
         title: null
     - type: Visibility
-- proto: ClothingBeltUtilityEngineering
-  entities:
-  - uid: 579
-    components:
-    - type: Transform
-      pos: 21.274452,2.8054774
-      parent: 2
 - proto: ClothingHandsGlovesColorYellow
   entities:
   - uid: 1226
@@ -8941,13 +8927,6 @@ entities:
     - type: Transform
       pos: 13.5,15.5
       parent: 2
-- proto: JawsOfLife
-  entities:
-  - uid: 585
-    components:
-    - type: Transform
-      pos: 21.477577,2.4773524
-      parent: 2
 - proto: KitchenMicrowave
   entities:
   - uid: 11050
@@ -9057,13 +9036,6 @@ entities:
     - type: Transform
       pos: 16.5,-13.5
       parent: 2
-- proto: MechEquipmentDrill
-  entities:
-  - uid: 541
-    components:
-    - type: Transform
-      pos: 23.52868,-1.1973083
-      parent: 2
 - proto: MedicalBed
   entities:
   - uid: 11089
@@ -9110,26 +9082,6 @@ entities:
       linearDamping: 0
 - proto: MiningDrill
   entities:
-  - uid: 577
-    components:
-    - type: Transform
-      pos: 35.47248,17.686981
-      parent: 2
-  - uid: 578
-    components:
-    - type: Transform
-      pos: 35.56623,17.405731
-      parent: 2
-  - uid: 581
-    components:
-    - type: Transform
-      pos: 19.510525,-4.276205
-      parent: 2
-  - uid: 582
-    components:
-    - type: Transform
-      pos: 19.604275,-4.588705
-      parent: 2
   - uid: 11093
     components:
     - type: Transform
@@ -9487,6 +9439,12 @@ entities:
       parent: 2
 - proto: OreBox
   entities:
+  - uid: 550
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 21.5,1.5
+      parent: 2
   - uid: 11175
     components:
     - type: Transform
@@ -9532,10 +9490,20 @@ entities:
       parent: 2
 - proto: Pickaxe
   entities:
+  - uid: 541
+    components:
+    - type: Transform
+      pos: 35.42425,17.56483
+      parent: 2
   - uid: 570
     components:
     - type: Transform
       pos: 10.362449,-4.478304
+      parent: 2
+  - uid: 11193
+    components:
+    - type: Transform
+      pos: 35.678646,17.511253
       parent: 2
 - proto: PlushieSpaceLizard
   entities:
@@ -9598,13 +9566,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 11.5,7.5
-      parent: 2
-- proto: PowerDrill
-  entities:
-  - uid: 586
-    components:
-    - type: Transform
-      pos: 21.633827,2.6804774
       parent: 2
 - proto: PoweredLEDSmallLight
   entities:
@@ -9762,12 +9723,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 23.5,-1.5
       parent: 2
-  - uid: 584
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 21.5,1.5
-      parent: 2
   - uid: 11253
     components:
     - type: Transform
@@ -9897,6 +9852,12 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 25.5,4.5
+      parent: 2
+  - uid: 11276
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 21.5,2.5
       parent: 2
   - uid: 11277
     components:
@@ -10061,11 +10022,6 @@ entities:
       parent: 2
 - proto: Rack
   entities:
-  - uid: 550
-    components:
-    - type: Transform
-      pos: 19.5,-4.5
-      parent: 2
   - uid: 551
     components:
     - type: Transform
@@ -11263,11 +11219,6 @@ entities:
       parent: 2
 - proto: Table
   entities:
-  - uid: 580
-    components:
-    - type: Transform
-      pos: 21.5,2.5
-      parent: 2
   - uid: 11622
     components:
     - type: Transform
@@ -13223,15 +13174,15 @@ entities:
       parent: 2
 - proto: WeldingFuelTankFull
   entities:
-  - uid: 576
-    components:
-    - type: Transform
-      pos: 20.5,-8.5
-      parent: 2
   - uid: 16158
     components:
     - type: Transform
       pos: 13.5,4.5
+      parent: 2
+  - uid: 16159
+    components:
+    - type: Transform
+      pos: 21.5,2.5
       parent: 2
 - proto: Windoor
   entities:
