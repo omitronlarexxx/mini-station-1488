@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Grid
-  engineVersion: 247.1.0
+  engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 02/22/2025 13:29:21
-  entityCount: 79
+  time: 04/26/2025 18:53:34
+  entityCount: 80
 maps: []
 grids:
 - 1
@@ -101,14 +101,6 @@ entities:
           moles:
           - 21.824879
           - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
           - 0
           - 0
           - 0
@@ -290,6 +282,13 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 8.5,-3.5
+      parent: 1
+- proto: SpawnMobCarp
+  entities:
+  - uid: 80
+    components:
+    - type: Transform
+      pos: -2.5,-0.5
       parent: 1
 - proto: SurvivalKnife
   entities:

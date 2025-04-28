@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Grid
-  engineVersion: 247.1.0
+  engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 02/22/2025 13:40:24
-  entityCount: 563
+  time: 04/26/2025 19:02:54
+  entityCount: 565
 maps: []
 grids:
 - 1
@@ -260,14 +260,6 @@ entities:
           - 0
           - 0
           - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
@@ -337,13 +329,6 @@ entities:
       parent: 1
 - proto: AirlockMiningGlass
   entities:
-  - uid: 467
-    components:
-    - type: Transform
-      pos: 2.5,13.5
-      parent: 1
-- proto: AirlockMiningGlass
-  entities:
   - uid: 232
     components:
     - type: Transform
@@ -353,6 +338,11 @@ entities:
     components:
     - type: Transform
       pos: -11.5,0.5
+      parent: 1
+  - uid: 467
+    components:
+    - type: Transform
+      pos: 2.5,13.5
       parent: 1
 - proto: APCBasic
   entities:
@@ -1467,14 +1457,6 @@ entities:
         - 0
         - 0
         - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
     - type: ContainerContainer
       containers:
         entity_storage: !type:Container
@@ -1868,14 +1850,6 @@ entities:
         - 0
         - 0
         - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
     - type: ContainerContainer
       containers:
         entity_storage: !type:Container
@@ -2216,6 +2190,20 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 5.5,13.5
+      parent: 1
+- proto: VisitorDetective
+  entities:
+  - uid: 565
+    components:
+    - type: Transform
+      pos: 3.5,10.5
+      parent: 1
+- proto: VisitorQMSpawner
+  entities:
+  - uid: 564
+    components:
+    - type: Transform
+      pos: -2.5,10.5
       parent: 1
 - proto: WallReinforced
   entities:
