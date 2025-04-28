@@ -160,11 +160,11 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
         Gui?.TargetWindow.OpenCentered();
     }
 
-    private void GhostRolesPressed()
+    public void GhostRolesPressed()
     {
         _system?.OpenGhostRoles();
     }
-	
+
 	// Corvax-Next-GhostBar-Start
     private void GhostBarPressed()
     {

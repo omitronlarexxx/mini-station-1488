@@ -6,7 +6,7 @@
     Margin="4"
     MinSize="50 50">
     <BoxContainer Orientation="Vertical">
-        <GridContainer Columns="3">
+        <GridContainer Columns="4">
             <cc:UICommandButton Command="kick" Text="{Loc admin-player-actions-window-title}" WindowType="{x:Type at:PlayerActionsWindow}" />
             <cc:CommandButton Command="banpanel" Text="{Loc admin-player-actions-window-ban}" />
             <cc:CommandButton Command="aghost" Text="{Loc admin-player-actions-window-admin-ghost}" />
