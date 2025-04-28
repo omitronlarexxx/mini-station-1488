@@ -8,16 +8,32 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Client.Player;
 using Robust.Shared.Configuration;
-
+using Content.Client.UserInterface.Systems.Ghost.Controls;
+using Content.Client.Stylesheets;
+using Robust.Client.UserInterface.Controls;
+using Content.Client.UserInterface.Systems.Ghost;
+using Content.Shared.Ghost;
+using Content.Client.Ghost;
+using Content.Client.UserInterface.Systems.Ghost;
 namespace Content.Client.Lobby.UI
+
 {
     [GenerateTypedNameReferences]
     public sealed partial class LobbyGui : UIScreen
     {
         [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
+        [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private readonly IUriOpener _uriOpener = default!;
         [Dependency] private readonly IPlayerManager _playerManager = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
+        [UISystemDependency] private readonly GhostSystem? _system = default;
+
+        [UISystemDependency] private readonly GhostSystem _ghostSystem = default!;
+        public event Action? GhostRolesPressed;
+
+        private int _prevNumberRoles;
+
+        public GhostTargetWindow TargetWindow { get; } = null!;
 
         public LobbyGui()
         {
@@ -42,7 +58,6 @@ namespace Content.Client.Lobby.UI
             Discord.OnPressed += _ => _uriOpener.OpenUri(new Uri("https://discord.gg/mini-station"));
             Telegram.OnPressed += _ => _uriOpener.OpenUri(new Uri("https://t.me/mini_station"));
             CharacterSetup.OnPressed += _ => SwitchState(LobbyGuiState.CharacterSetup);
-
             Rules.OnPressed += _ => new RulesAndInfoWindow().Open();
             Guidebook.OnPressed += _ => UserInterfaceManager.GetUIController<GuidebookUIController>().ToggleGuidebook();
             Changelog.OnPressed += _ => UserInterfaceManager.GetUIController<ChangelogUIController>().ToggleWindow();
@@ -76,5 +91,6 @@ namespace Content.Client.Lobby.UI
             /// </summary>
             CharacterSetup
         }
-    }
+}
+
 }

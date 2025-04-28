@@ -103,6 +103,7 @@
       Male: UnisexIPC
       Female: UnisexIPC
       Unsexed: UnisexIPC
+  - type: Strippable
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
@@ -124,6 +125,8 @@
     interfaces:
       enum.IpcScreenUiKey.Key:
         type: IpcScreenBoundUserInterface
+      enum.StrippingUiKey.Key:
+        type: StrippableBoundUserInterface
   - type: IpcScreen
   - type: CanEnterCryostorage
   - type: Tag
@@ -148,7 +151,5 @@
   components:
   - type: HumanoidAppearance
     species: IPC
-    hair: []  # Пустой список = нет причесок
-    facialHair: []  # Пустой список = нет бород
   - type: Inventory
     templateId: ipc

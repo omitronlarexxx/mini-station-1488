@@ -177,7 +177,7 @@
           visible: false
     - type: Repairable
       #fuelcost: 60
-      doAfterDelay: 10 # was 18
+      doAfterDelay: 8 # was 18
       damage:
         types:
           Blunt: -20
@@ -336,6 +336,7 @@
             - !type:WashCreamPieReaction
     - type: BodyEmotes
       soundsId: GeneralBodyEmotes
+
     - type: DamageVisuals
       thresholds: [20, 50, 100]
       targetLayers:
@@ -379,3 +380,4 @@
         # - PsionicallyInsulated
         - SeeingStatic
     - type: Blindable
+    - type: CanEnterCryostorage
