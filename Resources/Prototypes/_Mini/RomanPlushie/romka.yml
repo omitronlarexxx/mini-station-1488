@@ -1,5 +1,5 @@
 - type: entity
-  parent: BaseItem
+  parent: BasePlushie
   id: PlushieRoma
   name: Blabla
   description: Blabla.
