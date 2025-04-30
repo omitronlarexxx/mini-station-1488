@@ -6,13 +6,13 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: Resources/Prototypes/_Mini/RomanPlushie/roman_plushie.rsi
+    sprite: _Mini/RomanPlushie/roman_plushie.rsi
     
 - type: entity
   parent: PlushieRoma
   id: PlushieRomka
-  name: Плюшевый Роман Кац
-  description: следит за тобой.
+  name: плюшевый Роман Кац
+  description: Следит за тобой.
   components:
   - type: Sprite
     state: roman_plushie
