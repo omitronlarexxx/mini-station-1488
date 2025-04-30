@@ -19,7 +19,6 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/sniper.ogg
-  - type: BallisticAmmoProvider
   - type: ItemSlots
     slots:
       gun_magazine:
