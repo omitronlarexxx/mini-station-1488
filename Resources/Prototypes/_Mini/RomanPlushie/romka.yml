@@ -1,0 +1,18 @@
+- type: entity
+  parent: BaseItem
+  id: PlushieRoma
+  name: Blabla
+  description: Blabla.
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Resources/Prototypes/_Mini/RomanPlushie/roman_plushie.rsi
+    
+- type: entity
+  parent: PlushieRoma
+  id: PlushieRomka
+  name: Плюшевый Роман Кац
+  description: следит за тобой.
+  components:
+  - type: Sprite
+    state: roman_plushie
