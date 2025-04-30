@@ -172,6 +172,66 @@
     tags: []
 
 - type: entity
+  name:  боксёрский стимулятор
+  parent: ChemicalMedipen
+  id: BoxingStimulantBrute
+  description: Энергия в каждом движении! Ускоряет и лечит ушибы, но крайне редкий и дорогой, поскольку давно не изготавливается.
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/medipen.rsi
+    layers:
+    - state: boxipen
+      map: ["enum.SolutionContainerLayers.Fill"]
+  - type: SolutionContainerVisuals
+    maxFillLevels: 1
+    changeColor: false
+    emptySpriteName: boxipen_empty
+  - type: SolutionContainerManager
+    solutions:
+      pen:
+        maxVol: 15
+        reagents:
+        - ReagentId: Ephedrine
+          Quantity: 7
+        - ReagentId: TranexamicAcid
+          Quantity: 3
+        - ReagentId: Bruizine
+          Quantity: 5
+  - type: Tag
+    tags: []
+
+- type: entity
+  name: продвинутый боксёрский стимулятор
+  parent: ChemicalMedipen
+  id: BoxingStimulantBruteUltra
+  description: Это точно легально? Содержит мощный стимулятор и продвинутое лекарство от ушибов. Кажется, его производят какие-то дилетанты в сыром подвале, но кто мы такие, чтобы не попробовать?
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/medipen.rsi
+    layers:
+    - state: boxipensuper
+      map: ["enum.SolutionContainerLayers.Fill"]
+  - type: SolutionContainerVisuals
+    maxFillLevels: 1
+    changeColor: false
+    emptySpriteName: boxipensuper_empty
+  - type: SolutionContainerManager
+    solutions:
+      pen:
+        maxVol: 15
+        reagents:
+        - ReagentId: Desoxyephedrine
+          Quantity: 7
+        - ReagentId: TranexamicAcid
+          Quantity: 1.50
+        - ReagentId: Epinephrine
+          Quantity: 1.50
+        - ReagentId: Bruizine
+          Quantity: 5
+  - type: Tag
+    tags: []
+
+- type: entity
   name: poison auto-injector
   parent: ChemicalMedipen
   id: AntiPoisonMedipen

@@ -1356,6 +1356,14 @@
   - BoxerShortsWithTop
 
 - type: loadoutGroup
+  id: BoxingStimulant
+  name: loadout-group-boxer-stimulant
+  minLimit: 0
+  loadouts:
+  - BoxingStimulant1
+  - BoxingStimulant2
+
+- type: loadoutGroup
   id: BoxerGloves
   name: loadout-group-boxer-gloves
   loadouts:
