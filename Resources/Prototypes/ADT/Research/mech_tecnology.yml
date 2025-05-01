@@ -87,6 +87,9 @@
   - ADTDurandArmorPlates
   - ADTDurandCentralElectronics
   - ADTDurandPeripheralsElectronics
+  position: 3,1
+  requiredTech:
+  - ADTGygaxTechnology
 
 - type: technology
   id: ADTPhazonTechnology
@@ -195,58 +198,22 @@
   recipeUnlocks:
   - MechEquipmentDiamondDrill
 
-- type: technology
-  id: ADTMechTechnologyArmor
-  name: research-technology-mech-armor
-  icon:
-    sprite: Objects/Specific/Mech/mecha_equipment.rsi
-    state: mecha_abooster_proj
-  discipline: Industrial
-  tier: 2
-  cost: 5000
-  recipeUnlocks:
-  - MechEquipmentArmorMelee
-  - MechEquipmentArmorRange
-
+# Выведено из игры пока броня не будет починена
 # - type: technology
-#   id: ADTMechTechnologyCatapult
-#   name: research-technology-mech-catapult
+#   id: ADTMechTechnologyArmor
+#   name: research-technology-mech-armor
 #   icon:
 #     sprite: Objects/Specific/Mech/mecha_equipment.rsi
-#     state: mecha_teleport
-#   discipline: Industrial
+#     state: mecha_abooster_proj
+#   discipline: Mech
 #   tier: 2
 #   cost: 5000
 #   recipeUnlocks:
-#   - MechEquipmentGravipult
-
-#Технологии оружия
-
-- type: technology
-  id: ADTMechEnergyGunSmallTechnology
-  name: research-technology-mech-energy-gun-small
-  icon:
-    sprite: Objects/Specific/Mech/mecha_equipment.rsi
-    state: mecha_laser
-  discipline: Arsenal
-  tier: 2
-  cost: 15000
-  recipeUnlocks:
-  - ADTMechGunImmolatorLaser
-  - ADTMechGunPeacemakerDisabler
-
-- type: technology
-  id: ADTMechEnergyGunHeavyTechnology
-  name: research-technology-mech-energy-gun-heavy
-  icon:
-    sprite: Objects/Specific/Mech/mecha_equipment.rsi
-    state: mecha_pulse
-  discipline: Arsenal
-  tier: 2
-  cost: 20000
-  recipeUnlocks:
-  - ADTMechGunSolarisLaserCannon
-  - ADTMechGunTeslaCannon
+#   - MechEquipmentArmorMelee
+#   - MechEquipmentArmorRange
+#   position: 3,1
+#   requiredTech:
+#   - ADTGygaxTechnology
 
 - type: technology
   id: ADTMechGunSmallTechnology
@@ -262,8 +229,9 @@
   - ADTMechGunUltraAC2
   - ADTBoxAmmoScattershot
   - ADTBoxAmmoAC2Ultra
-  - ADTMechGunFNX99Hades
-  - ADTBoxAmmoHades
+  position: 3,-1
+  requiredTech:
+  - ADTGygaxTechnology
 
 - type: technology
   id: ADTMechGunHeavyTechnology
@@ -275,9 +243,14 @@
   tier: 3
   cost: 15000
   recipeUnlocks:
-  - ADTMechGunMHAR21
+  # - ADTMechGunMHAR21 Вырезано ради баланса
   - ADTMechGunSGL6
   - ADTMechGunSRM8
   - ADTMechGunBRM6
-  - ADTBoxAmmoSniper
+  # - ADTBoxAmmoSniper Вырезано ради баланса
+  - ADTMechGunFNX99Hades
+  - ADTBoxAmmoHades
   - ADTBoxAmmoGranade
+  position: 3,-2
+  requiredTech:
+  - ADTMechGunSmallTechnology

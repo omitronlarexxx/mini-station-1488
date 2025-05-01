@@ -51,9 +51,9 @@
     - WeaponDisabler
     - MedicatedSuture
     - RegenerativeMesh
-    - BoxZiptie
     - CrowbarRed
     - MagazineMagnum
+    - ADTBaseUplinkBOBERT
 
 - type: startingGear
   id: ERTLeaderGearEVA
@@ -79,7 +79,7 @@
     - BoxZiptie
     - CrowbarRed
     - MagazineMagnum
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTLeaderGearEVALecter
   equipment:
@@ -106,7 +106,7 @@
     - BoxZiptie
     - CrowbarRed
     - MagazineMagnum
-
+    - ADTBaseUplinkBOBERT
 # Chaplain
 - type: job
   id: ERTChaplain
@@ -134,7 +134,6 @@
       - Surgery
       - MedicalEquipment
       - Butchering
-
 - type: startingGear
   id: ERTChaplainGear
   equipment:
@@ -165,7 +164,7 @@
     - FoodBakedBunHotX
     - FoodBakedBunHotX
     - Lighter
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTChaplainGearEVA
   equipment:
@@ -196,7 +195,7 @@
     - FoodBakedBunHotX
     - FoodBakedBunHotX
     - Lighter
-
+    - ADTBaseUplinkBOBERT
 # Engineer
 - type: job
   id: ERTEngineer
@@ -256,7 +255,7 @@
     - SheetPlasteel
     - SheetSteel
     - SheetGlass
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTEngineerGearEVA
   equipment:
@@ -340,7 +339,7 @@
     - BoxZiptie
     - CrowbarRed
     - MagazinePistol
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTSecurityGearEVA
   equipment:
@@ -364,7 +363,7 @@
     - BoxZiptie
     - CrowbarRed
     - MagazinePistol
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTSecurityGearEVALecter
   equipment:
@@ -390,7 +389,7 @@
     - BoxZiptie
     - CrowbarRed
     - MagazinePistol
-
+    - ADTBaseUplinkBOBERT
 # Medical
 - type: job
   id: ERTMedical
@@ -447,7 +446,7 @@
     - ChemistryBottleOmnizine
     - ChemistryBottleEpinephrine
     - ChemistryBottleEpinephrine
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTMedicalGearEVA
   equipment:
@@ -471,7 +470,7 @@
     - ChemistryBottleOmnizine
     - ChemistryBottleEpinephrine
     - ChemistryBottleEpinephrine
-
+    - ADTBaseUplinkBOBERT
 # Janitor
 - type: job
   id: ERTJanitor
@@ -525,7 +524,7 @@
     - Soap
     - CrowbarRed
     - AdvMopItem
-
+    - ADTBaseUplinkBOBERT
 - type: startingGear
   id: ERTJanitorGearEVA
   equipment:
@@ -547,3 +546,4 @@
     - Soap
     - CrowbarRed
     - AdvMopItem
+    - ADTBaseUplinkBOBERT
