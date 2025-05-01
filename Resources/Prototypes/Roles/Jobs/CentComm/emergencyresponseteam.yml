@@ -54,7 +54,7 @@
     - CrowbarRed
     - MagazineMagnum
     - ADTBaseUplinkBOBERT
-
+    - ADTertMechUplink
 - type: startingGear
   id: ERTLeaderGearEVA
   equipment:
@@ -80,6 +80,7 @@
     - CrowbarRed
     - MagazineMagnum
     - ADTBaseUplinkBOBERT
+    - ADTertMechUplink
 - type: startingGear
   id: ERTLeaderGearEVALecter
   equipment:
@@ -107,6 +108,7 @@
     - CrowbarRed
     - MagazineMagnum
     - ADTBaseUplinkBOBERT
+    - ADTertMechUplink
 # Chaplain
 - type: job
   id: ERTChaplain
