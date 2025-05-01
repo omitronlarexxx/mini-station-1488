@@ -28,7 +28,7 @@
   parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
   id: ClothingOuterArmorBasic
   name: бронежилет
-  description: Тонкий бронежилет типа-I, обеспечивающий достойную защиту от большинства видов повреждений.
+  description: Стандартный бронежилет типа-I, обеспечивающий достойную защиту от большинства видов повреждений.
 
 #Alternate / slim basic armor vest
 - type: entity
