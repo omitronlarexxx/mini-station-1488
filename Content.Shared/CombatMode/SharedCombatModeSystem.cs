@@ -1,5 +1,4 @@
 using Content.Shared.Actions;
-using Content.Shared.Mech.Components;
 using Content.Shared.Mind;
 using Content.Shared.MouseRotator;
 using Content.Shared.Movement.Components;
@@ -104,21 +103,11 @@ public abstract class SharedCombatModeSystem : EntitySystem
             }
             // Corvax-Next-NoScope-End
             EnsureComp<NoRotateOnMoveComponent>(uid);
-
-            // ADT Mech start
-            if (TryComp<MechPilotComponent>(uid, out var pilot))
-                EnsureComp<NoRotateOnMoveComponent>(pilot.Mech);
-            // ADT Mech end
         }
         else
         {
             RemComp<MouseRotatorComponent>(uid);
             RemComp<NoRotateOnMoveComponent>(uid);
-
-            // ADT Mech start
-            if (TryComp<MechPilotComponent>(uid, out var pilot))
-                RemComp<NoRotateOnMoveComponent>(pilot.Mech);
-            // ADT Mech end
         }
     }
 

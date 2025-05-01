@@ -10,7 +10,7 @@ using Content.Shared.Mech.Equipment.Components;
 namespace Content.Server.Mech.Systems;
 
 /// <inheritdoc/>
-public sealed partial class MechSystem
+public sealed partial class MechSystem : SharedMechSystem
 {
     private void InitializeADT()
     {

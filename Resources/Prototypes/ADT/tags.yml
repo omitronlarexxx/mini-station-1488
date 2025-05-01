@@ -1,3 +1,126 @@
+- type: Tag
+  id: Defibrillator
+
+- type: Tag
+  id: ADTLasgunRevolverCell
+
+- type: Tag
+  id: PhantomEctoplasm
+
+- type: Tag
+  id: PhantomEctoplasmBattery
+
+- type: Tag
+  id: PhantomEctoplasmPistolBattery
+
+- type: Tag
+  id: PhantomFreedom
+
+- type: Tag
+  id: IgnoreBalanceChecks
+
+- type: Tag
+  id: SpaceCash
+
+- type: Tag
+  id: PlushieSharkBlack
+
+- type: Tag
+  id: ADTSteelSheet
+
+- type: Tag
+  id: ADTCartridgeBibis
+
+- type: Tag
+  id: ADTMagazineRifleBibis
+
+- type: Tag
+  id: ADTBorgUse
+
+- type: Tag
+  id: ADTBorgModuleSecurity
+
+- type: Tag
+  id: ADTBorgSecurityHead
+
+- type: Tag
+  id: ADTBorgSecurityLArm
+
+- type: Tag
+  id: ADTBorgSecurityLLeg
+
+- type: Tag
+  id: ADTBorgSecurityRArm
+
+- type: Tag
+  id: ADTBorgSecurityRLeg
+
+- type: Tag
+  id: ADTBorgSecurityTorso
+
+- type: Tag
+  id: ADTBorgKerfusNTTorso
+
+- type: Tag
+  id: ADTBorgKerfusNTHead
+
+- type: Tag
+  id: ADTTelescopicBaton
+
+- type: Tag
+  id: Eyes
+
+- type: Tag
+  id: GasMask
+
+- type: Tag
+  id: Heart
+
+- type: Tag
+  id: Kidneys
+
+- type: Tag
+  id: Liver
+
+- type: Tag
+  id: Lungs
+
+- type: Tag
+  id: Mask
+
+- type: Tag
+  id: Organ
+
+- type: Tag
+  id: Stomach
+
+- type: Tag
+  id: Stunbaton
+
+- type: Tag
+  id: Table
+
+- type: Tag
+  id: Tongue
+
+- type: Tag
+  id: Poppy
+
+- type: Tag
+  id: ADTCardPlay
+
+- type: Tag
+  id: ADTCard
+
+- type: Tag
+  id: ADTSyrelBattleAxe
+
+- type: Tag
+  id: VehicleKey
+
+- type: Tag
+  id: JanicartKeys
+
 #mech_gygax
 
 - type: Tag

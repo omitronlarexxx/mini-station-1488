@@ -12,10 +12,49 @@ public sealed class MechEquipmentUIController : UIController
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     private MechEquipmentMenu? _menu;
 
-    public void ToggleMenu()
+    public override void Initialize()
+    {
+
+        EntityManager.EventBus.SubscribeLocalEvent<MechComponent, MechToggleEquipmentEvent>(OnToggleEquipmentAction);
+        EntityManager.EventBus.SubscribeLocalEvent<MechComponent, CloseMechMenuEvent>(OnMechExit);
+
+    }
+
+    private void OnToggleEquipmentAction(EntityUid uid, MechComponent component, MechToggleEquipmentEvent args)
+    {
+        if (!_entityManager.TryGetComponent<MechPilotComponent>(_playerManager.LocalEntity, out var pilot) || pilot.Mech != uid)
+            return;
+        if (args.Handled)
+            return;
+        args.Handled = true;
+        if (!_timing.IsFirstTimePredicted)
+            return;
+
+        List<NetEntity> list = new();
+        foreach (var item in component.EquipmentContainer.ContainedEntities)
+        {
+            list.Add(_entityManager.GetNetEntity(item));
+        }
+        var ev = new PopulateMechEquipmentMenuEvent(list);
+        ToggleMenu(ev);
+    }
+
+    private void OnMechExit(EntityUid uid, MechComponent component, CloseMechMenuEvent args)
+    {
+        if (_menu != null)
+            ToggleMenu(new(new())); // Для закрытия всё равно не сильно нужна эта информация
+    }
+
+    private void OnPopulateRequest(PopulateMechEquipmentMenuEvent ev)
+    {
+        if (_menu != null)
+            _menu.Populate(new PopulateMechEquipmentMenuEvent(ev.Equipment));
+    }
+    private void ToggleMenu(PopulateMechEquipmentMenuEvent ev)
     {
         if (_menu == null)
         {
@@ -24,6 +63,7 @@ public sealed class MechEquipmentUIController : UIController
             _menu.OnClose += OnWindowClosed;
             _menu.OnOpen += OnWindowOpen;
             _menu.OnSelectEquip += OnSelectEquip;
+            _menu.Populate(ev);
 
             _menu.OpenCentered();
         }
@@ -32,14 +72,10 @@ public sealed class MechEquipmentUIController : UIController
             _menu.OnClose -= OnWindowClosed;
             _menu.OnOpen -= OnWindowOpen;
             _menu.OnSelectEquip -= OnSelectEquip;
+            _menu.Equipment.Clear();
 
             CloseMenu();
         }
-    }
-
-    public void PopulateMenu(List<NetEntity> equip)
-    {
-        _menu?.Populate(equip);
     }
 
     private void OnWindowClosed()
@@ -51,12 +87,12 @@ public sealed class MechEquipmentUIController : UIController
     {
     }
 
-    public void CloseMenu()
+    private void CloseMenu()
     {
         if (_menu == null)
             return;
 
-        _menu.Close();
+        _menu.Dispose();
         _menu = null;
     }
 
