@@ -1,12 +1,11 @@
 - type: entity
-  id: BaseMagazineHeavyRifle
-  name: "магазин от AWM (.388 LM)"
-  parent: BaseItem, BaseSyndicateContraband
-  abstract: true
+  id: MagazineLapuaMagnum
+  name: "магазин от AWM (.388 Lapua Magnum)"
+  parent: [ BaseItem, BaseSyndicateContraband ]
   components:
   - type: Tag
     tags:
-      - MagazineHeavyRifle
+      - MagazineLapuaMagnum
   - type: Item
     size: Small
   - type: BallisticAmmoProvider
@@ -16,5 +15,5 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
-    sprite: _Mini/AWM/MagazineAWM.rsi
+    sprite: _Mini/AWM/Ammunition/Magazines/lapuamagnummagazine.rsi
   - type: Appearance
