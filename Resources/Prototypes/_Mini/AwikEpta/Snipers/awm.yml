@@ -5,9 +5,9 @@
   description: AWM — это крупнокалиберная винтовка, обычно использующая патроны .338 Lapua Magnum.
   components:
   - type: Sprite
-    sprite: _Mini/SniperRifle/awp.rsi
+    sprite: /_Mini/AWM/SniperRifle/awm.rsi
   - type: Clothing
-    sprite: _Mini/SniperRifle/awp.rsi
+    sprite: /_Mini/AWM/SniperRifle/awmclothing.rsi
     slots:
     - Back
     quickEquip: false
