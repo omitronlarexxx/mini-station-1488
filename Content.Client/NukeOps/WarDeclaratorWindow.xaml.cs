@@ -66,11 +66,6 @@ public sealed partial class WarDeclaratorWindow : FancyWindow
                 UpdateTimer();
                 StatusLabel.SetOnlyStyleClass(StyleNano.StyleClassPowerStateGood);
                 break;
-            case WarConditionStatus.NoWarSmallCrew:
-                StatusLabel.Text = Loc.GetString("war-declarator-boost-impossible");
-                InfoLabel.Text = Loc.GetString("war-declarator-conditions-small-crew");
-                StatusLabel.SetOnlyStyleClass(StyleNano.StyleClassPowerStateNone);
-                break;
             case WarConditionStatus.NoWarShuttleDeparted:
                 StatusLabel.Text = Loc.GetString("war-declarator-boost-impossible");
                 InfoLabel.Text = Loc.GetString("war-declarator-conditions-left-outpost");

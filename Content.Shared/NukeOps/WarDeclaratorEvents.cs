@@ -14,7 +14,6 @@ public enum WarConditionStatus : byte
     YesWar,
     NoWarUnknown,
     NoWarTimeout,
-    NoWarSmallCrew,
     NoWarShuttleDeparted
 }
 
