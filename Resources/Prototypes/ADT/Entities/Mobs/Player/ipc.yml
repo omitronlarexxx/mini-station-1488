@@ -46,9 +46,9 @@
         - !type:GibBehavior { }
   - type: SlowOnDamage
     speedModifierThresholds:
-      60: 0.7
-      90: 0.5
-      120: 0.3
+      60: 0.6
+      90: 0.4
+      120: 0.2
   - type: SiliconDownOnDead
   - type: Inventory
     templateId: ipc
