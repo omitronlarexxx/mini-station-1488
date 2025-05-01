@@ -141,6 +141,21 @@
       - NukeOpsUplink
 
 - type: listing
+  id: UplinkMech
+  name: Терминал механизированного крыла Киберсан
+  description: Фабрика мехов с заранее заготовленными 30 тк. Увы - доставка 5тк.
+  productEntity: ADTSyndiMechUplink
+  cost:
+    Telecrystal: 35
+  categories:
+  - UplinkDisruption
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: UplinkEshield
   name: uplink-eshield-name
   description: uplink-eshield-desc
@@ -1672,9 +1687,9 @@
   productEntity: CrateCybersunJuggernautBundle
   discountCategory: veryRareDiscounts
   discountDownTo:
-    Telecrystal: 8
+    Telecrystal: 15
   cost:
-    Telecrystal: 12
+    Telecrystal: 20
   categories:
   - UplinkWearables
 
@@ -2138,31 +2153,31 @@
       components:
       - SurplusBundle
 
-- type: listing
-  id: UplinkSyndicateSpongeBox
-  name: uplink-syndicate-sponge-box-name
-  description: uplink-syndicate-sponge-box-desc
-  icon: { sprite:  Objects/Misc/monkeycube.rsi, state: box}
-  discountCategory: rareDiscounts
-  discountDownTo:
-    Telecrystal: 4
-  productEntity: SyndicateSpongeBox
-  cost:
-    Telecrystal: 7
-  categories:
-  - UplinkJob
-  conditions:
-  - !type:BuyerJobCondition # We can't use BuyerDepartmentCondition here since Zookeeper and Chef can also get this
-    whitelist:
-    - Zookeeper
-    - Scientist
-    - SeniorResearcher # Corvax-Next-MentorRoles
-    - ResearchDirector
-    - Chef
-    - !type:StoreWhitelistCondition
-      blacklist:
-        tags:
-          - NukeOpsUplink
+#- type: listing
+#  id: UplinkSyndicateSpongeBox
+#  name: uplink-syndicate-sponge-box-name
+#  description: uplink-syndicate-sponge-box-desc
+#  icon: { sprite:  Objects/Misc/monkeycube.rsi, state: box}
+#  discountCategory: rareDiscounts
+#  discountDownTo:
+#    Telecrystal: 4
+#  productEntity: SyndicateSpongeBox
+#  cost:
+#    Telecrystal: 7
+#  categories:
+#  - UplinkJob
+#  conditions:
+#  - !type:BuyerJobCondition # We can't use BuyerDepartmentCondition here since Zookeeper and Chef can also get this
+#    whitelist:
+#    - Zookeeper
+#    - Scientist
+#    - SeniorResearcher # Corvax-Next-MentorRoles
+#    - ResearchDirector
+#    - Chef
+#    - !type:StoreWhitelistCondition
+#      blacklist:
+#        tags:
+#          - NukeOpsUplink
 
 - type: listing
   id: UplinkCaneBlade

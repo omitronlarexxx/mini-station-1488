@@ -127,6 +127,8 @@
   - WeaponLaserCannon
   - WeaponLaserCarbine
   - WeaponXrayCannon
+  - ADTWeaponIonRifle  #ADT tweak
+  - ADTWeaponIonCarbine #ADT tweak
 
 - type: latheRecipePack
   id: SecurityDisablers
