@@ -1,3 +1,21 @@
+- type: loadoutEffectGroup
+  id: BoxerGod
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobBoxer
+      time: 3600 #1 hr
+
+- type: loadoutEffectGroup
+  id: BoxerUltraGod
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobBoxer
+      time: 18000 #5 hr
+
 # Jumpsuit
 - type: loadout
   id: BoxerShorts
@@ -29,3 +47,20 @@
   id: YellowBoxingGloves
   equipment:
     gloves: ClothingHandsGlovesBoxingYellow
+
+#Стимулятор
+- type: loadout
+  id: BoxingStimulant1
+  equipment:
+    pocket1: BoxingStimulantBrute
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: BoxerGod
+
+- type: loadout
+  id: BoxingStimulant2
+  equipment:
+    pocket1: BoxingStimulantBruteUltra
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: BoxerUltraGod
