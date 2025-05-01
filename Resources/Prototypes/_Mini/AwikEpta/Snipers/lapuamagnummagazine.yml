@@ -15,5 +15,5 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
-    sprite: _Mini/AWM/Ammunition/Magazines/lapuamagnummagazine.rsi
+    sprite: /_Mini/AWM/Ammunition/Magazines/lapuamagnummagazine.rsi
   - type: Appearance

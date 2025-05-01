@@ -8,10 +8,10 @@
     },
     "states": [
         {
-            "name": "full"
+            "name": "base"
         },
         {
-            "name": "empty"
+            "name": "mag-1"
         }
     ]
 }

@@ -16,7 +16,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
-    sprite: _Mini/AWM/Ammunition/Boxes/lapuamagnumbox.rsi
+    sprite: /_Mini/AWM/Ammunition/Boxes/lapuamagnumbox.rsi
   - type: MagazineVisuals
     magState: mag
     steps: 2
