@@ -418,9 +418,6 @@
     - SecurityWeapons
     - SecurityDisablers
     # ADT-tweak-start
-    - ADTMagazineUraniumPack
-    - ADTAttachmentPack
-    - ADT40mmGrenadePack
     - ADTMechEquipmentSecTechfabPack
     # ADT-tweak-end
   - type: MaterialStorage
