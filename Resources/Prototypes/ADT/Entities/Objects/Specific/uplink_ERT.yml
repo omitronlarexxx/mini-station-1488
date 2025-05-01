@@ -7,15 +7,15 @@
     categories:
     - ADTUplinkERTWeapon
     - ADTUplinkERTMisc
-    - ADTUplinkERTAttachments
+    - ADTUplinkERTAmmo
     currencyWhitelist:
     - Productunit
 
 - type: entity
   parent: [BaseItem,  ADTStorePresetUplinkERT]
   id: ADTBaseUplinkBOBERT
-  name: Б.О.О.Б.Р.
-  description: Блюспейс оружейная отряда быстрого реагирования.
+  name: Блюспейс магазин
+  description: Блюспейс магазин отряда быстрого реагирования.
   suffix: 35 ЕТ
   components:
   - type: Sprite
