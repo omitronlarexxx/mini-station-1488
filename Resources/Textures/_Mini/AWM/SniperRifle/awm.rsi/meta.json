@@ -13,11 +13,8 @@
         {
             "name": "bolt-open"
         },
-        {   
-            "name": "bolt-open-mag-out"
-        },
         {
-            "name": "mag-out"
+            "name": "mag-0"
         }
     ]
 }
