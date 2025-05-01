@@ -1,0 +1,20 @@
+- type: entity
+  id: BaseMagazineHeavyRifle
+  name: "магазин от AWM (.388 LM)"
+  parent: BaseItem, BaseSyndicateContraband
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+      - MagazineHeavyRifle
+  - type: Item
+    size: Small
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    capacity: 10
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _Mini/AWM/MagazineAWM.rsi
+  - type: Appearance
