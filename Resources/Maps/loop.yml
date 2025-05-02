@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 248.0.0
+  engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 03/19/2025 20:53:24
-  entityCount: 17797
+  time: 05/02/2025 20:24:32
+  entityCount: 17798
 maps:
 - 1
 grids:
@@ -543,6 +543,7 @@ entities:
             2098: -46,46
             2207: -3,65
             2208: -3,64
+            2448: -29,42
         - node:
             color: '#00FFFFFF'
             id: BotGreyscale
@@ -571,7 +572,6 @@ entities:
             id: BotLeft
           decals:
             1876: -30,42
-            1877: -29,42
             1878: -30,41
             1879: -30,40
             1880: -30,39
@@ -5316,6 +5316,13 @@ entities:
     - type: InstantAction
       originalIconColor: '#FFFFFFFF'
       container: 6715
+- proto: ADTSpawnMechPaddy
+  entities:
+  - uid: 10109
+    components:
+    - type: Transform
+      pos: -28.5,42.5
+      parent: 2
 - proto: AirAlarm
   entities:
   - uid: 21
@@ -7277,7 +7284,7 @@ entities:
       pos: -30.5,13.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51840.86
+      secondsUntilStateChange: -52090.04
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -34476,6 +34483,13 @@ entities:
     - type: Transform
       pos: -42.471054,7.4323015
       parent: 2
+- proto: CaptainDrobe
+  entities:
+  - uid: 6970
+    components:
+    - type: Transform
+      pos: -8.5,69.5
+      parent: 2
 - proto: CaptainIDCard
   entities:
   - uid: 7124
@@ -40028,6 +40042,13 @@ entities:
     - type: Transform
       pos: -59.5,-6.5
       parent: 2
+- proto: ChemistryBottleUnstableMutagen
+  entities:
+  - uid: 15490
+    components:
+    - type: Transform
+      pos: -54.314514,40.52692
+      parent: 2
 - proto: ChemistryEmptyBottle01
   entities:
   - uid: 15531
@@ -40476,7 +40497,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -40789,7 +40810,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -40820,7 +40841,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -40851,7 +40872,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -40887,7 +40908,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -40928,7 +40949,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -40969,7 +40990,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -41023,7 +41044,7 @@ entities:
             - -0.25,0.48
           mask:
           - Impassable
-          - TableLayer
+          - MidImpassable
           - LowImpassable
           layer:
           - BulletImpassable
@@ -41044,11 +41065,13 @@ entities:
     - type: Transform
       pos: -17.566338,23.632784
       parent: 2
+    - type: Visibility
   - uid: 15399
     components:
     - type: Transform
       pos: -13.572019,38.72765
       parent: 2
+    - type: Visibility
 - proto: ClothingBackpackMerc
   entities:
   - uid: 14078
@@ -41056,6 +41079,7 @@ entities:
     - type: Transform
       pos: -92.46855,73.53757
       parent: 2
+    - type: Visibility
 - proto: ClothingBeltChampion
   entities:
   - uid: 6150
@@ -41298,6 +41322,13 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+- proto: ClothingHeadHatBeaverHat
+  entities:
+  - uid: 17798
+    components:
+    - type: Transform
+      pos: -60.51252,25.546667
+      parent: 2
 - proto: ClothingHeadHatBeretBrigmedic
   entities:
   - uid: 15864
@@ -41808,13 +41839,6 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-  - uid: 10109
-    components:
-    - type: Transform
-      parent: 15581
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
   - uid: 14176
     components:
     - type: Transform
@@ -42282,14 +42306,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -16.5,87.5
       parent: 2
-- proto: ComputerSalvageExpedition
-  entities:
-  - uid: 16370
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 7.5,62.5
-      parent: 2
 - proto: ComputerShuttleCargo
   entities:
   - uid: 16433
@@ -42297,6 +42313,14 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 14.5,76.5
+      parent: 2
+- proto: ComputerShuttleMiningLavaland
+  entities:
+  - uid: 16370
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 7.5,62.5
       parent: 2
 - proto: ComputerSolarControl
   entities:
@@ -43764,7 +43788,7 @@ entities:
       pos: -9.5,51.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -299596.4
+      secondsUntilStateChange: -299845.6
       state: Opening
   - uid: 6747
     components:
@@ -43772,7 +43796,7 @@ entities:
       pos: -8.5,51.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -299597.12
+      secondsUntilStateChange: -299846.3
       state: Opening
   - uid: 6749
     components:
@@ -43780,7 +43804,7 @@ entities:
       pos: -6.5,51.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -299595.7
+      secondsUntilStateChange: -299844.88
       state: Opening
   - uid: 6750
     components:
@@ -43788,7 +43812,7 @@ entities:
       pos: -5.5,51.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -299595.06
+      secondsUntilStateChange: -299844.25
       state: Opening
   - uid: 9721
     components:
@@ -48665,13 +48689,6 @@ entities:
     components:
     - type: Transform
       pos: 26.479345,7.5382805
-      parent: 2
-- proto: DresserCaptainFilled
-  entities:
-  - uid: 6970
-    components:
-    - type: Transform
-      pos: -8.5,69.5
       parent: 2
 - proto: DresserChiefEngineerFilled
   entities:
@@ -88020,6 +88037,13 @@ entities:
     - type: Transform
       pos: -22.494856,41.407604
       parent: 2
+- proto: RitualDagger
+  entities:
+  - uid: 15581
+    components:
+    - type: Transform
+      pos: -68.514915,-5.468829
+      parent: 2
 - proto: RobocopCircuitBoard
   entities:
   - uid: 5334
@@ -92203,6 +92227,13 @@ entities:
     - type: Transform
       pos: -69.5,-6.5
       parent: 2
+- proto: SpawnMobGorillaLargo
+  entities:
+  - uid: 15827
+    components:
+    - type: Transform
+      pos: 1.5,75.5
+      parent: 2
 - proto: SpawnMobKangarooWillow
   entities:
   - uid: 2328
@@ -92265,13 +92296,6 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -9.5,39.5
-      parent: 2
-- proto: SpawnMobRaccoonMorticia
-  entities:
-  - uid: 15827
-    components:
-    - type: Transform
-      pos: 1.5,75.5
       parent: 2
 - proto: SpawnMobShiva
   entities:
@@ -93616,36 +93640,6 @@ entities:
           occludes: True
           ents:
           - 6017
-  - uid: 15581
-    components:
-    - type: Transform
-      pos: -28.5,42.5
-      parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.14673
-        moles:
-        - 1.7459903
-        - 6.568249
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 10109
 - proto: SurveillanceCameraCommand
   entities:
   - uid: 5575
@@ -97931,13 +97925,6 @@ entities:
     components:
     - type: Transform
       pos: -40.292664,59.497982
-      parent: 2
-- proto: UnstableMutagenChemistryBottle
-  entities:
-  - uid: 15490
-    components:
-    - type: Transform
-      pos: -54.314514,40.52692
       parent: 2
 - proto: Vaccinator
   entities:
