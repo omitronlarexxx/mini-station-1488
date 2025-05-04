@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 247.2.0
+  engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 03/07/2025 19:59:53
-  entityCount: 23196
+  time: 05/02/2025 20:20:05
+  entityCount: 23197
 maps:
 - 5350
 grids:
@@ -7617,6 +7617,13 @@ entities:
     - type: InstantAction
       originalIconColor: '#FFFFFFFF'
       container: 20092
+- proto: ADTSpawnMechPaddy
+  entities:
+  - uid: 4698
+    components:
+    - type: Transform
+      pos: -37.5,53.5
+      parent: 30
 - proto: AirAlarm
   entities:
   - uid: 682
@@ -11558,7 +11565,7 @@ entities:
       pos: 34.5,45.5
       parent: 30
     - type: Door
-      secondsUntilStateChange: -9541.195
+      secondsUntilStateChange: -9692.694
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -44562,6 +44569,13 @@ entities:
     - type: Transform
       pos: 2.6220274,21.009964
       parent: 30
+- proto: CaptainDrobe
+  entities:
+  - uid: 4989
+    components:
+    - type: Transform
+      pos: -17.5,30.5
+      parent: 30
 - proto: CaptainIDCard
   entities:
   - uid: 23195
@@ -52717,6 +52731,7 @@ entities:
     - type: Transform
       pos: 24.465357,37.55109
       parent: 30
+    - type: Visibility
 - proto: ClothingBeltHolster
   entities:
   - uid: 727
@@ -54633,19 +54648,19 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 25.5,14.5
       parent: 30
-- proto: ComputerSalvageExpedition
-  entities:
-  - uid: 7266
-    components:
-    - type: Transform
-      pos: 29.5,-9.5
-      parent: 30
 - proto: ComputerShuttleCargo
   entities:
   - uid: 18001
     components:
     - type: Transform
       pos: 35.5,-4.5
+      parent: 30
+- proto: ComputerShuttleMiningLavaland
+  entities:
+  - uid: 7266
+    components:
+    - type: Transform
+      pos: 29.5,-9.5
       parent: 30
 - proto: ComputerSolarControl
   entities:
@@ -62452,13 +62467,6 @@ entities:
     components:
     - type: Transform
       pos: -29.5,-45.5
-      parent: 30
-- proto: DresserCaptainFilled
-  entities:
-  - uid: 4989
-    components:
-    - type: Transform
-      pos: -17.5,30.5
       parent: 30
 - proto: DresserChiefEngineerFilled
   entities:
@@ -100749,14 +100757,11 @@ entities:
       parent: 30
 - proto: GunSafeDisabler
   entities:
-  - uid: 4698
+  - uid: 23197
     components:
     - type: Transform
-      anchored: True
-      pos: -37.5,53.5
+      pos: -42.5,49.5
       parent: 30
-    - type: Physics
-      bodyType: Static
 - proto: GunSafePistolMk58
   entities:
   - uid: 2594
@@ -122073,6 +122078,13 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -27.5,5.5
       parent: 30
+- proto: SpawnMobGorillaLargo
+  entities:
+  - uid: 8383
+    components:
+    - type: Transform
+      pos: 26.5,1.5
+      parent: 30
 - proto: SpawnMobKangarooWillow
   entities:
   - uid: 10987
@@ -122130,13 +122142,6 @@ entities:
     components:
     - type: Transform
       pos: -22.5,-5.5
-      parent: 30
-- proto: SpawnMobRaccoonMorticia
-  entities:
-  - uid: 8383
-    components:
-    - type: Transform
-      pos: 26.5,1.5
       parent: 30
 - proto: SpawnMobShiva
   entities:
