@@ -79,3 +79,8 @@
   id: HeadofSecurityWinterCoat
   equipment:
     outerClothing: ClothingOuterWinterHoS
+
+- type: loadout
+  id: HeadofSecurityGreatCoat
+  equipment:
+    outerClothing: ClothingOuterCoatHoSGreatcoat
