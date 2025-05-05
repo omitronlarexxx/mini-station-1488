@@ -200,6 +200,7 @@
     fiberMaterial: fibers-leather
     fiberColor: fibers-black
   - type: FingerprintMask
+  - type: Insulated
 
 - type: entity
   parent: [ClothingHandsBase, BaseToggleClothing, BaseMajorContraband]
