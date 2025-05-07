@@ -4,8 +4,8 @@ meta:
   engineVersion: 250.0.0
   forkId: ""
   forkVersion: ""
-  time: 05/05/2025 14:13:56
-  entityCount: 30126
+  time: 05/02/2025 20:41:04
+  entityCount: 30125
 maps:
 - 1
 grids:
@@ -12647,7 +12647,7 @@ entities:
       pos: 38.5,-9.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -12332.91
+      secondsUntilStateChange: -12218.232
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -14568,7 +14568,7 @@ entities:
       pos: -22.5,26.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -34385.08
+      secondsUntilStateChange: -34270.402
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -15419,7 +15419,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -133213.69
+      secondsUntilStateChange: -133099.02
       state: Opening
   - uid: 6934
     components:
@@ -15431,7 +15431,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -133216.31
+      secondsUntilStateChange: -133101.64
       state: Opening
   - uid: 6935
     components:
@@ -15443,7 +15443,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -133215.17
+      secondsUntilStateChange: -133100.5
       state: Opening
   - uid: 6936
     components:
@@ -15454,7 +15454,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -133214.39
+      secondsUntilStateChange: -133099.72
       state: Opening
 - proto: AirlockTheatreLocked
   entities:
@@ -38928,143 +38928,28 @@ entities:
     - type: Transform
       pos: 27.5,9.5
       parent: 2
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_board: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_parts: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        charger_slot: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-    - type: Construction
-      containers:
-      - machine_parts
-      - machine_board
-      - entity_storage
   - uid: 6913
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -34.5,-6.5
       parent: 2
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_board: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_parts: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        charger_slot: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-    - type: Construction
-      containers:
-      - machine_parts
-      - machine_board
-      - entity_storage
   - uid: 10179
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -4.5,-41.5
       parent: 2
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_board: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_parts: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        charger_slot: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-    - type: Construction
-      containers:
-      - machine_parts
-      - machine_board
-      - entity_storage
   - uid: 10467
     components:
     - type: Transform
       pos: -7.5,-54.5
       parent: 2
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_board: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_parts: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        charger_slot: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-    - type: Construction
-      containers:
-      - machine_parts
-      - machine_board
-      - entity_storage
   - uid: 20271
     components:
     - type: Transform
       pos: 61.5,16.5
       parent: 2
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_board: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        machine_parts: !type:Container
-          showEnts: False
-          occludes: True
-          ents: []
-        charger_slot: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-    - type: Construction
-      containers:
-      - machine_parts
-      - machine_board
-      - entity_storage
 - proto: BoxBeaker
   entities:
   - uid: 10428
@@ -96427,7 +96312,7 @@ entities:
       pos: -13.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -124537.7
+      secondsUntilStateChange: -124423.02
     - type: DeviceNetwork
       deviceLists:
       - 18275
@@ -99996,13 +99881,6 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -41.5,13.5
-      parent: 2
-- proto: GasMinerPlasma
-  entities:
-  - uid: 30123
-    components:
-    - type: Transform
-      pos: -41.5,17.5
       parent: 2
 - proto: GasMinerWaterVapor
   entities:
@@ -142382,7 +142260,7 @@ entities:
       pos: 36.5,-35.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -161369.5
+      secondsUntilStateChange: -161254.83
       state: Opening
   - uid: 5211
     components:
@@ -193496,7 +193374,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -12335.743
+      secondsUntilStateChange: -12221.065
       state: Opening
     - type: Airlock
       autoClose: False
@@ -194930,7 +194808,7 @@ entities:
       pos: 24.5,2.5
       parent: 21002
     - type: Door
-      secondsUntilStateChange: -506574.1
+      secondsUntilStateChange: -506459.4
       state: Opening
   - uid: 28863
     components:
