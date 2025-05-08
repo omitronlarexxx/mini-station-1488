@@ -70,7 +70,7 @@
 - type: thiefBackpackSet
   id: PistolSet
   name: Крио-пистолет ОСЩ
-  description: Оружия для ведения боя с тяжелобронироваными одиночными целями.
+  description: Оружие для ведения боя с тяжелобронироваными одиночными целями.
   sprite:
     sprite: Adventure/Roles/blueshield/Weapons/DualphasBH.rsi
     state: base

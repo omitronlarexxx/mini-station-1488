@@ -47,14 +47,12 @@
 - type: startingGear
   id: BlueShieldOfficerGear
   equipment:
-    head: ADTClothingHeadHatBeretBlueshieldBlack
     eyes: ADTClothingEyesGlassesBlueshield
     ears: ADTClothingHeadsetBlueshield
     shoes: ClothingShoesBootsCombatFilled
     outerClothing: ClothingOuterArmorBasic
     gloves: ClothingHandsGlovesCombat
     id: ADTBlueshieldOfficerPDA
-    neck: ADTClothingNeckCloakBlueshield
     back: ClothingBackpackBlueShield
     belt: ClothingBeltMilitaryWebbingBlueShieldFilled
 - type: entity
@@ -88,6 +86,7 @@
       - id: TrackingImplanter
         amount: 3
       - id: BlueShieldCase
+      - id: BoxSurvivalSecurity
   - type: ExplosionResistance
     damageCoefficient: 0.6
 
