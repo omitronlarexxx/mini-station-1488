@@ -1,0 +1,29 @@
+- type: entity
+  parent: [ BaseItem, BaseSyndicateContraband ]
+  id: LapuaMagnumMagazineBox
+  name: коробка с патронами (.388 LM)
+  components:
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeLapuaMagnum
+    proto: CartridgeLapuaMagnum
+    capacity: 30
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _Mini/ERANEBULLA/Ammunition/Boxes/AWM/lapuamagnumbox.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance

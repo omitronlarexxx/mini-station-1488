@@ -1,0 +1,19 @@
+- type: entity
+  id: MagazineLapuaMagnum
+  name: "магазин от AWM (.388 LM)"
+  parent: [ BaseItem, BaseSyndicateContraband ]
+  components:
+  - type: Tag
+    tags:
+      - MagazineLapuaMagnum
+  - type: Item
+    size: Small
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    capacity: 10
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _Mini/ERANEBULLA/Ammunition/Magazines/AWM/lapuamagnummagazine.rsi
+  - type: Appearance

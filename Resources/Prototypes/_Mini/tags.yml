@@ -3,3 +3,9 @@
 
 - type: Tag
   id: CartridgeMinigun
+
+- type: Tag
+  id: MagazineLapuaMagnum
+
+- type: Tag
+  id: CartridgeLapuaMagnum
