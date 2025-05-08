@@ -1,4 +1,4 @@
-- type: latheRecipePack
+- type: latheRecipe
   id: IndustrialChargerCircuitboard
   result: IndustrialChargerCircuitboard
   completetime: 2

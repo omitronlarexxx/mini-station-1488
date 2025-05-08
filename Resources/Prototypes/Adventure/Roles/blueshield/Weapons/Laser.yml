@@ -1,8 +1,8 @@
 - type: entity
-  name: Х-2 двухфазовый энергетический пистолет
+  name: Крио-пистолет ОСЩ
   parent: BaseWeaponBatterySmall
   id: WeaponX2DualphaseEnergyLaserGun
-  description: Этот передовой и дорогой лазерный пистолет офицера синий щит был изготовлен на заказ. Он сочетает в себе мощь и функциональность. Пистолет имеет два режима стрельбы - лазер, который наносит урон ожогами на расстоянии, и станнер, предназначенный для обезвреживания и задержания противников. Имеет слабую самозарядку.
+  description: Это передовой и дорогой крио-пистолет офицера синий щит. Пистолет имеет два режима стрельбы - лазер, который наносит урон ожогами на расстоянии, и крио-генератор, предназначенный для обезвреживания и изнурения противников. Имеет слабую самозарядку.
   components:
   - type: Sprite
     sprite: Adventure/Roles/blueshield/Weapons/DualphasBH.rsi
@@ -13,13 +13,13 @@
       map: ["enum.GunVisualLayers.MagUnshaded"]
       shader: unshaded
   - type: Gun
-    fireRate: 2
-    projectileSpeed: 50
+    fireRate: 2.2
+    projectileSpeed: 35
     selectedMode: SemiAuto
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Adventure/Weapon/BHWeapon.ogg
+      path: /Audio/Weapons/Guns/Gunshots/taser2.ogg
   - type: Item
     sprite: Adventure/Roles/blueshield/Weapons/DualphasBH.rsi
     size: Small
@@ -43,22 +43,16 @@
   - type: StaticPrice
     price: 1000
   - type: BatterySelfRecharger
-    autoRechargeRate: 5
+    autoRechargeRate: 7
     autoRecharge: true
 
 # проджект лазера
 - type: entity
   name: лазер
   id: LaserBulletForBH
-  parent: EmitterBolt
+  parent: BulletLaser
   categories: [ HideSpawnMenu ]
   components:
-  - type: Sprite
-    sprite: Adventure/Roles/blueshield/Weapons/UnivProjectiles.rsi
-    layers:
-    - state: omnilaser_greyscale
-      shader: unshaded
-      color: blue
   - type: Projectile
     impactEffect: BulletImpactEffectLaserForBH
     damage:
@@ -67,27 +61,23 @@
 
 # проджект станнера
 - type: entity
-  name: станнер
+  name: крио-снаряд
   id: stanerBullet
   parent: BulletDisabler
   categories: [ HideSpawnMenu ]
   components:
-  - type: Sprite
-    sprite: Adventure/Roles/blueshield/Weapons/UnivProjectiles.rsi
-    layers:
-    - state: omnilaser_greyscale
-      shader: unshaded
-      color: cyan
   - type: StaminaDamageOnCollide
-    damage: 25
+    damage: 15
   - type: Projectile
     impactEffect: BulletImpactEffectDisablerBlue
     damage:
       types:
-        Heat: 3
+        Cold: 10
     soundHit:
       collection: WeakHit
     forceSound: true
+  - type: ChangeTemperatureOnCollide
+    heat: -15000 # Lavaland Change
 
 # эффект от станнера
 - type: entity
@@ -114,17 +104,17 @@
   id: BulletImpactEffectLaserForBH
   categories: [ HideSpawnMenu ]
   components:
-    - type: TimedDespawn
-      lifetime: 0.2
-    - type: Sprite
-      drawdepth: Effects
-      layers:
-        - shader: unshaded
-          map: ["enum.EffectLayers.Unshaded"]
-          sprite: Adventure/Roles/blueshield/Weapons/UnivProjectiles.rsi
-          state: impact_laser_greyscale
-          color: blue
-    - type: EffectVisuals
-    - type: Tag
-      tags:
-        - HideContextMenu
+   - type: TimedDespawn
+     lifetime: 0.2
+   - type: Sprite
+     drawdepth: Effects
+     layers:
+       - shader: unshaded
+         map: ["enum.EffectLayers.Unshaded"]
+         sprite: Adventure/Roles/blueshield/Weapons/UnivProjectiles.rsi
+         state: impact_laser_greyscale
+         color: red
+       - type: EffectVisuals
+       - type: Tag
+         tags:
+         - HideContextMenu

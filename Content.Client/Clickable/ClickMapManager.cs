@@ -15,7 +15,7 @@ namespace Content.Client.Clickable
         {
             // These will probably never need click maps so skip em.
             "/Textures/Interface",
-            "/Textures/LobbyScreens",
+            "/Textures/Corvax/LobbyScreens",
             "/Textures/Parallaxes",
             "/Textures/Logo",
         };

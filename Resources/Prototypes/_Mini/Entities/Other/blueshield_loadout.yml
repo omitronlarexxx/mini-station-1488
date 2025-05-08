@@ -1,0 +1,101 @@
+- type: entity
+  parent: BaseItem
+  id: BaseERTloadoutPrimary
+  abstract: true
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия.
+  components:
+  - type: Item
+    size: Large
+  - type: Sprite
+    sprite: _Mini/Other/ertcases.rsi
+    state: amber
+  - type: ThiefUndeterminedBackpack
+    maxSelectedSets: 1
+    possibleSets:
+    - MinigunSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: entity
+  parent: BaseItem
+  id: BaseERTloadoutSecondary
+  abstract: true
+  name: коробка неопределённости
+  description: Коробка с табельным оружием.
+  components:
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,2,1
+  - type: Sprite
+    sprite: _Mini/Other/ertboxes.rsi
+    state: amber
+  - type: ThiefUndeterminedBackpack
+    maxSelectedSets: 1
+    possibleSets:
+    - MinigunSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: entity
+  id: BlueShieldCase
+  name: Оружейная ОСЩ.
+  description: Блюспейс хранилище оружия.
+  suffix: ОБР, Эмбер, Основное
+  parent: BaseERTloadoutPrimary
+  components:
+    - type: Sprite
+      state: amber
+    - type: ThiefUndeterminedBackpack
+      possibleSets:
+        - PistolSet
+        - MinigunSet
+        - LaserSwordSet
+    - type: ActivatableUI
+      key: enum.ThiefBackpackUIKey.Key
+    - type: UserInterface
+      interfaces:
+        enum.ThiefBackpackUIKey.Key:
+          type: ThiefBackpackBoundUserInterface
+
+- type: thiefBackpackSet
+  id: PistolSet
+  name: Крио-пистолет ОСЩ
+  description: Оружия для ведения боя с тяжелобронироваными одиночными целями.
+  sprite:
+    sprite: Adventure/Roles/blueshield/Weapons/DualphasBH.rsi
+    state: base
+  content:
+  - WeaponX2DualphaseEnergyLaserGun
+
+- type: thiefBackpackSet
+  id: MinigunSet
+  name: Мини-пулемёт ОСЩ.
+  description: Оружие для борьбы с многочисленным, малобронированным врагом.
+  sprite:
+    sprite: _Mini/Objects/Weapons/Guns/LMGs/krio_gun.rsi
+    state: icon
+  content:
+  - WeaponMiniMachineGun
+  - MagazineMiniMachineGunBox
+  - MagazineMiniMachineGunBox
+  - MagazineMiniMachineGunBox
+
+- type: thiefBackpackSet
+  id: LaserSwordSet
+  name: Лазерный револьвер ОСЩ.
+  description: Оружие для борьбы на ближней дистанции.
+  sprite:
+    sprite: ADT/Objects/Weapons/Guns/Saber_revolvers/energy.rsi
+    state: icon
+  content:
+  - ADTWeaponSaberRevBlueshield

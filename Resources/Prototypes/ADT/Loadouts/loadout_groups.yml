@@ -29,10 +29,10 @@
   - ADTBlueshieldCloak
   - ADTBlueshieldCloakSecond
 
-- type: loadoutGroup
-  id: ADTBlueshieldBack
-  name: loadout-group-blueshield-back
-  minLimit: 1
-  maxLimit: 1
-  loadouts:
-  - ClothingBackpackBlueShield
+#- type: loadoutGroup
+#  id: BlueshieldBackpack
+#  name: loadout-group-blueshield-back
+#  minLimit: 1
+#  maxLimit: 1
+#  loadouts:
+#  - ClothingBackpackBlueShield

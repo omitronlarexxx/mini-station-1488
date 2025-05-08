@@ -12,7 +12,7 @@
     xmlns:changelog="clr-namespace:Content.Client.Changelog">
 
     <!-- Background Image -->
-    <TextureRect Access="Public" VerticalExpand="True" HorizontalExpand="True" Name="Background" Stretch="KeepAspectCovered" TexturePath="/Textures/LobbyScreens"/>
+    <TextureRect Access="Public" VerticalExpand="True" HorizontalExpand="True" Name="Background" Stretch="KeepAspectCovered" TexturePath="/Textures/Corvax/LobbyScreens"/>
 
     <BoxContainer Name="MainContainer" VerticalExpand="True" HorizontalExpand="True" Orientation="Horizontal" Margin="10">
         <!-- Character setup state -->
