@@ -1,4 +1,4 @@
-- type: entity
+- type: entity ## i have zero knowledge about this type of shit
   name: AWM
   parent: [ BaseWeaponRifle, BaseGunWieldable, BaseSyndicateContraband ]
   id: WeaponSniperAWM
@@ -50,6 +50,10 @@
       gun_magazine: !type:ContainerSlot
       gun_chamber: !type:ContainerSlot
         whitelistFailPopup: gun-magazine-whitelist-fail
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
   - type: SpeedModifiedOnWield
     walkModifier: 0.75
     sprintModifier: 0.85

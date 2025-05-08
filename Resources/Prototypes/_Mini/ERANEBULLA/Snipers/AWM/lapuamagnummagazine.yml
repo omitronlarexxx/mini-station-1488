@@ -16,4 +16,7 @@
       ballistic-ammo: !type:Container
   - type: Sprite
     sprite: _Mini/ERANEBULLA/Ammunition/Magazines/AWM/lapuamagnummagazine.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
   - type: Appearance
