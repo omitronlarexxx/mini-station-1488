@@ -196,6 +196,7 @@
 
 - type: Tag
   id: ADTHardsuitSalvage
+
 - type: Tag
   id: ADTSiliconStealthWhitelist
 
@@ -204,7 +205,9 @@
 
 - type: Tag
   id: ADTBeerCan
+  
 ##weapons tags general
+
 - type: Tag
   id: ADTLasgunRevolverCell
 
