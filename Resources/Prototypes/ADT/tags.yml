@@ -204,3 +204,18 @@
 
 - type: Tag
   id: ADTBeerCan
+##weapons tags general
+- type: Tag
+  id: ADTLasgunRevolverCell
+
+- type: Tag
+  id: ADTMagazineHristov
+
+- type: Tag
+  id: ADTMagazineRifleExtended
+
+- type: Tag
+  id: ADTMagazineRifleAR12
+
+- type: Tag
+  id: ADT40mmGrenade
