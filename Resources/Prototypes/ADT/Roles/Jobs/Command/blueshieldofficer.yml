@@ -31,7 +31,6 @@
     - Medical
     - Engineering
     - Cargo
-    - Centcom
     - BlueShield
   special:
   - !type:AddImplantSpecial
@@ -48,15 +47,12 @@
 - type: startingGear
   id: BlueShieldOfficerGear
   equipment:
-    head: ADTClothingHeadHatBeretBlueshieldBlack
     eyes: ADTClothingEyesGlassesBlueshield
     ears: ADTClothingHeadsetBlueshield
     shoes: ClothingShoesBootsCombatFilled
     outerClothing: ClothingOuterArmorBasic
     gloves: ClothingHandsGlovesCombat
     id: ADTBlueshieldOfficerPDA
-    pocket1: WeaponX2DualphaseEnergyLaserGun
-    neck: ADTClothingNeckCloakBlueshield
     back: ClothingBackpackBlueShield
     belt: ClothingBeltMilitaryWebbingBlueShieldFilled
 - type: entity
@@ -84,15 +80,13 @@
         ents: []
   - type: StorageFill
     contents:
-      - id: BoxSurvivalSecurity
       - id: Zipties
-        amount: 3
-      - id: MagazineMiniMachineGunBox
-        amount: 3
-      - id: WeaponMiniMachineGun
+        amount: 2
       - id: HandheldCrewMonitor
       - id: TrackingImplanter
         amount: 3
+      - id: BlueShieldCase
+      - id: BoxSurvivalSecurity
   - type: ExplosionResistance
     damageCoefficient: 0.6
 

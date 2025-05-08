@@ -42,17 +42,7 @@
     neck: ADTClothingNeckCloakSecondBlueshield
 
 # Back
-- type: loadout
-  id: ADTBlueshieldBackpack
-  equipment:
-    back: ADTClothingBlueshieldBackpack
-
-- type: loadout
-  id: ADTBlueshieldSatchel
-  equipment:
-    back: ADTClothingBackpackSatchelBlueshield
-
-- type: loadout
-  id: ADTBlueshieldDuffel
-  equipment:
-    back: ADTClothingBackpackDuffelBlueshield
+#- type: loadout
+#  id: BlueshieldBackpack
+#  equipment:
+#    back: ClothingBackpackBlueShield

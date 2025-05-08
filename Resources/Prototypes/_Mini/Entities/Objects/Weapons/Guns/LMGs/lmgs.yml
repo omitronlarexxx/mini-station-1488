@@ -15,13 +15,15 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-3
       map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _Mini/Objects/Weapons/Guns/LMGs/krio_gun.rsi
   - type: ItemSlots
     slots:
       gun_magazine:
         name: Magazine
         startingItem: MagazineMiniMachineGunBox
-        insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/batrifle_magout.ogg
+        insertSound: /Audio/_Mini/LMGs/mini_empty.ogg
+        ejectSound: /Audio/_Mini/LMGs/mini_empty.ogg
         priority: 2
         whitelist:
           tags:
@@ -34,3 +36,5 @@
     fireRate: 14
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/c-20r.ogg
+    soundEmpty:
+      path: /Audio/_Mini/LMGs/mini_empty.ogg
