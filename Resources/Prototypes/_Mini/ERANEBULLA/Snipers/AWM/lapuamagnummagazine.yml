@@ -11,6 +11,10 @@
   - type: BallisticAmmoProvider
     mayTransfer: true
     capacity: 10
+    whitelist:
+      tags:
+        - CartridgeLapuaMagnum
+    proto: CartridgeLapuaMagnum
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
